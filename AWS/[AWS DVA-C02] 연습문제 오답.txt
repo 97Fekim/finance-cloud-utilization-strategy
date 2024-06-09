@@ -1,0 +1,75 @@
+[AWS DVA-C02:  1~100 (59/100)]
+1트: 1, 3, 4, 7, 12, 18, 20, 21, 25, 29, 30, 32, 34, 36, 44, 45, 47, 49, 53, 55, 56, 57, 59, 61, 66, 67, 71, 73, 74, 75, 76, 82, 84, 85, 88, 90, 93, 95, 98, 100
+2트: 12, 20, 21, 34, 55, 56, 59, 66, 67, 74, 75, 76, 84, 88, 95, 98, 100
+
+[AWS DVA-C02:  101~200 (59/100)]
+1트: 101, 103, 104, 107, 109, 111, 113, 114, 117, 119, 122, 127, 128, 133, 137, 141, 145, 147, 148, 153, 154, 155, 156, 160, 161, 162, 172, 177, 178, 183, 186, 187, 189, 191, 192, 194, 195, 197, 199
+2트: 133, 162, 165, 197
+
+[AWS DVA-C02:  201~300 (56/100)]
+1트: 204, 208, 212, 213, 218, 219, 220, 221, 222, 223, 226, 227, 234, 240, 241, 243, 244, 246, 247, 250, 252, 253, 258, 261, 262, 264, 265, 272, 273, 275, 276, 277, 278, 279, 280, 281, 283, 284, 287, 290, 295, 296, 297
+2트: 204, 219, 221, 222, 226, 242, 244, 250, 252, 262, 265, 275, 297
+
+[AWS DVA-C02:  301~469 (지뢰가/너무많다)]
+1트: 307, 314, 318, 324(답A임), 327, 334, 335, 338, 340, 342, 344, 345, 347(답C임), 352, 354, 356, 357, 362, 369, 370, 384, 388, 389, 391, 392, 393, 396, 397(답B임), 399, 406, 407, 408, 409, 411, 413, 417(A임), 420, 422, 423, 424, 432(답:C), 433(답:C,D), 435(C), 440, 443, 454, 455, 461
+
+
+[다시볼것]
+
+3	: SSH Keys - SSH Keys in IAM Console, HTTPS - CLI Credential helper or Git Credentials for IAM
+4	: 잘 모르겠음...
+21	: ASG, ELB, RDS, EC2, S3, SNS
+25	: 스텝이 아니라, 2개 고르기
+34	: execution role은 하나만 assume하는걸 권장함. A는 role이 두개가 되고, B는 기존 execution role이 변경되버림.
+45	: A-따로 설정 안해도 CloudWatch로 로그를 보냄, B-Default로 보내므로 트리거 불필요함, D-B와 동일한 이유임.
+53	: VPC flow logs 관해서 학습 요망
+59	: VPC, 서브넷, NAT 게이트웨이 관해서 학습 요망
+67	: before "sent" to S3 이므로 Client Side Encryption이 정답임.
+75	: All at once는 롤백 기능이 없음. 직접 이전버전으로 재배포 해야함.
+100	: A,C 중 하난데, 재시작이 아니라 업데이트 해야 하므로 C가 오답임. 따라서 A가 정답.
+109	: 잘 모르겠음...
+114	: SQS에는 "우선순위"라는 기능이 없다.
+172	: Kinesis Streams도 SSE가 가능하다.
+183	: 가장 최근에 성공한 버전으로 새로운 배포ID를 가진 배포를 수행.
+192	: API Key 관련 학습 요망.
+208	: BeanStalk의 버전 제한을 0으로 두면, 이전 버전을 삭제하지 않고 유지한다.
+212	: HTTPS만 허용하려면, SecureTransport=false를 Deny하는 정책을 적용한다.
+218	: API Gateway에 단계적배포 같은 기능은 없다. 새로운 stage를 배포하고 URL을 교체해야 함.
+219	: DynamoDB 관련하여 AWS문의를 통해 limit를 증가할 수 있는항목은 1)테이블 갯수, 2)provisioned throughputs
+221	: 하나의 API Gateway에 하나의 Lambda function을 연결. 각각 따로 로그를 찍게 하는게 좋은가보다.
+244	: 잘 모르겠음..
+247	: dynamoDB의 병렬스캔 기능을 사용하면, provisioned throughputs에 대한 수요가 지나치게 높아진다. 이는 문제의 조건과 상충된다
+252	: Credentials Provider Chain. 1)CLI Options 2)환경변수 3)configure file ex)aws config ... 4)컨테이너 credentials 5)instance profiles
+262	: DynamoDB Streams로 Lambda invoke는 동기트리거만 가능.
+275	: 심플하게 생각하기.
+276	: 맨 앞부터 무작위일수록 좋다.
+278	: SSL Termination 개념 이제 알지??
+284	: Lambda는 자동으로 Scale out 한다.
+287	: trust policy = 서비스가 role을 assume할 수 있도록 허용함.
+307	: instance profile credentials를 확인하여 EC2의 credential을 확인.
+314	: EC2 인스턴스는 자신의 보안정책에 따라 source/destination이 유효한지 체크함. 이를 풀어야 함.
+324	: annotation과 metadata의 차이 = annotation은 index&searching용, metadata는 그저 key/value pair일뿐.
+334	: AMI는 동일 Region끼리 사용한다(Not country, Not AZ). 원한다면 다른 Region으로 복사는 가능하다. (AZ은 데이터센터이다. Region은 2개 이상의 AZ로 구성된 지리적 영역이다.)
+338	: Lambda의 concurrency 제한은 1,000이다. 문제 조건 concurrency는 5,000이다. 따라서 문의해서 늘려야 한다.
+340	: EC2 메타데이터에서 역할 이름은 조회할 수 있지만, 상세 역할은 조회할 수 없음. --dry--run = 작업에 필요한 권한이 있는지 확인할 때 사용하는 명령어.
+342	: 비율을 제한하면서 병렬스캔을 사용하니깐, RCU 초과되는 문제는 발생하지 않을것이다?
+344	: "새로운 환경"을 만드는게 포인트.
+345	: TopicArn, Subject, Message
+347	: 2020년 이후로 S3의 모든 API에 최종일관성이 적용됨.
+352	: 옛날에는 무작위 접두사를 S3 key에 붙이는게 권장됐지만, 지금은 timestamp가 권장됨.
+357	: 문제 조건에 Global이 있어서 CloudFront가 더 합리적인가..
+362	: 여러 장치에서 사용하는 사용자 관리 => Cognito Sync
+370	: SQS API 여러가지 기억하기 (pdf.451p)
+391	: Rolling Batch 방식은 첫번째 배치가 실패하는 경우를 제외하면, Rolling과 마찬가지로 falied 인스턴스에 의한 영향이 존재한다.
+392	: 잘 모르겠음..
+393	: 커스템 메트릭을 CloudWatch로 보내려면 putMetricData API를 사용해야 함.
+394	: CodeCommit.Client 를 인스턴스화하고, putFile, DeleteFile, GetFile 등등 자유롭게 활용 가능함.
+399	: 기존 log groups을 KMS Key와 연동하려면, CLI에서 associate-kms-key 를 사용한다.
+408	: pdf.421p 학습요망
+409	: [CUSTOM][.][s3-website]['.'or'-'][region].amazonaws.com
+417	: CodePipeline의 이벤트 알림은 SNS를 사용한다.
+420	: 잘 모르겠음..
+422	: 4KB 이상 파일에는 generateDataKey API를 사용한다.
+423	: BatchWriteItem은 update를 지원하지 않는다.
+433	: SAM CLI는 build+deploy OR build+(package)+deploy
+
