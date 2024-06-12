@@ -73,3 +73,22 @@
 423	: BatchWriteItem은 update를 지원하지 않는다.
 433	: SAM CLI는 build+deploy OR build+(package)+deploy
 
+
+
+[유데미 1회차]
+
+
+[유데미 2회차]
+1	: AutoScaling 정책은 최대갯수를 넘겨서 Scale out 하지 않는다.
+2	: Identity Pool 만으로는 사용자 관리가 불가능하다. 또한 User Pool과 함께 User Pool authorizer를 사용하면 AWS 서비스에 대한 인증을 처리할 수 있다.
+4	: 롤링,롤링배치 방식은 fail시 수동 재배포를 해야 한다.
+5	: 다시보자. 
+9	: API Gateway 에서의 인증 - 유저풀(O), 람다Authorizer(O), Standard IAM role and policy(O), STS(X)
+13	: SQS는 저장 메시지 갯수 제한이 없다. 단 전달중인 메시지는 약 12만개의 제한이 있다(전달중=poll했지만 delete는 하지 않음)
+14	: EBS 볼륨은 동일 AZ에서만 사용 가능하다(AZ Locking)
+16	: Zonal Reserved Instances (영역 예약 인스턴스)만 용량 예약이 가능하다. Regional Reserved Instances (지역 예약 인스턴스)는 용량 예약이 불가능하다.
+17	: Firehose의 지원대상 = S3(O), Elastic Search(O), Amazon Redshift(O), Elastic Cache(X)
+19	: ASG는 unhealthy한 인스턴스를 종료하고, 원하는 용량이 될때까지 새로운 인스턴스를 시작한다.
+21	: NACL은 stateless하므로, Inbound/Outbound 모두 규칙을 설정해줘야 원활히 송수신 가능하다.
+22	: 자격증명을 객체스토리지이나 파일시스템에 저장하는 답안은 피하자.
+23	: DynamoDB -> S3  = EMR(O), Glue(O), Data Pipeline(O), DynamoDB 온디맨드 백업(X)
