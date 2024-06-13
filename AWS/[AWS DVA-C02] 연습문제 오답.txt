@@ -76,6 +76,7 @@
 
 
 [유데미 1회차]
+TODO
 
 
 [유데미 2회차]
@@ -95,7 +96,18 @@
 34  : VPC 엔드포인트를 활용하여 AWS 서비스의 엔드포인트를 private하게 관리할 수 있다.
 35  : 서브넷은 하나의 라우팅 테이블에만 연결할 수 있다. 서브넷은 특정 라우팅 테이블과 명시적으로 연결되지 않은 경우, 기본 라우팅 테이블과 암시적으로 연결된다.
 36  : API Gateway 새 버전을 만들면 새로 배포해야 한다. staging variable 만으로 관리할 수 없다.
-41  : io1의 볼륨대비 IOPS 비율은 최대 1:50이다. 즉 볼륨 크기가 200GiB이라면, 10,000IOPS를 넘을 수 없다.
+41  : io1의 볼륨대비 IOPS 비율은 최대 1:50이다. 즉 볼륨 크기가 200GiB이라면, 10,000IOPS를 넘을 수 없다.   #io1은 곱하기50임
+45	: 하나의 private key로 여러개의 public key를 복사하여 사용할 수 있다. 복사된 public key는 여러 region에서 사용할 수 있다.
+46	: dynamoDB UpdateItem API는 기존에 없는 항목에 대해서 Insert를 수행한다.
+50	: SQS의 Delay time은 최소 0초(Default) ~ 최대 15분 이다.
+51	: CloudFormation의 파라미터는 모두 독립적이며 서로 종속될 수 없다. 가능한거=Stirng,Number,List,CommaDelimitedList, EC2::A::B
+54	: CodeDeploy 절차 = 1)ApplicationStop -> 2)DownloadBundle -> 3)BeforeInstall -> 4)Install -> 5)AfterInstall -> 6)ApplicationStart -> 7)ValidateService 8)~~~Traffic
+55	: Lambda는 1,000 동시성까지는 Auto Scale Out 하지만, 그 이상으로 늘리려면 예약 동시성을 갖는 Auto Scaling을 구성해야 한다.
+58	: 100IOP(33.33GiB) < gp2 IOPS < 16,000IOPS(5.3TiB)   #gp2는 곱하기30임
+60	: private key는 URL을 서명할때, public key는 CloudFront에서 서명확인.  루트유저로 2개의 key pair를 가질 수 있고, 키 그룹을 활용하면 4개의 그룹, 그룹당 5개의 공개키를 가질 수 있음.
+61	: State Machine의 Task 정의에 Resource는 필수이다. Resource가 없다면 Task가 아니라 Pass타입이다.
+62	: 4KB가 넘는 파일은 KMS로 직접 암/복호화 불가능함. 봉투 암호화 사용해야 함.
+63	: 표준 메트릭인지, 커스텀 메트릭인지 항상 주의해야 함.
 
 
 
