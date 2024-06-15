@@ -112,7 +112,6 @@ TODO
 
 [유데미 3회차]
 1	: ReceiveMessage 작업 대기시간이 0보다 크면 Long Polling이 적용된다. 최대 대기 시간은 20초이다.
-2	: KMS Encrypt는 이것만 기억한다. 
 4	: IAM 으로 인증이 가능한 DB = MySQL, MariaDB, Postgre  인증에 토큰을 사용하며, 수명은 15분이다.
 5	: 클라이언트 주소를 얻으려면 X-Forwarded-For(O), X-Forwarded-From(O)
 7	: Read Replica = Read 워크로드가 많을때 적합,  Multi-AZ = 고가용성에 적합.
@@ -148,3 +147,32 @@ TODO
    2) 암호화된 DataKey를 복호화해서 PlainTextKey를 얻음
    3) PlainTextKey로 내 파일 복호화.
 65	: Redis는 Memcached보다 신뢰성이 높다. 그 이유는 Memcached는 단순하게 설계된 반면, Redis는 스냅샷,복제,트랜잭션 기능을 지원하기 때문이다.
+
+
+[유데미 4회차]
+1	: Redis Elastic Cache는 정렬 기능을 제공한다 (Sorted Set)
+2	: 새로운 환경을 독립적으로 만드는게 관행이다.
+6	: CI/CD 의 respotitory의 후보는 S3/CodeCommit 두가지가 될 수 있다.
+7	: CodeBuild의 종속성을 S3에 캐싱하면 좋다.
+8	: Kinesis Agent는 데이터를 모니터링하고 새 데이터를 Streams로 전송하는데에 최적화 되어있다.
+11	: ELB vs ASG  -> 인스턴스의 갯수를 늘리는건 ELB가 아니라 ASG의 역할이다. (AGS + CloudWatchMetric/CloudWatchAlarm 통합)
+13	: CloudWatch + S3 통합으로 S3에 로그를 저장할 수 있다.
+17	: Immutable은 가장 느린 배포 방식이다. AllAtOnce 방식은 가장 빠른 배포방식이며, 약간의 Downtime이 존재한다.
+24	: X-Ray는 EC2의 RAM 통계를 추출할 수 없다.
+26	: Cross-Account 권한 부여 절차
+ - 1) A로 정책생성
+   2) A로 정책에 B에 대한 신뢰정책 추가
+   3) B에서 정책 Assume
+27	: ALB의 Target 설정 가능 대상  1)인스턴스ID, 2)Lambda, 3)private IP (퍼블릭IP 안됨.)
+29	: 사용자의 관리는 필요 없지만, 서비스에 대한 인증만 처리하고 싶다면 Cognito Identity Pool을 사용하자.
+31	: CloudFront로 정적/동적 컨텐츠 모두 제공 가능하다. 특히 Multi-Origin으로 그룹설정을 하면 정적/동적 컨텐츠를 동시에 제공할 수도 있다.
+32	: 런타임에 Lambda Function이 사용할 수 있는 최대 메모리는 10GB이다.
+42	: DynamoDB 테이블의 데이터를 모두 삭제할 거라면, 왠만하면 Delete로 지워버리는게 빠르다.
+43	: SSE-C 가 포함되어 있는 S3 API 요청은 반드시 HTTPS 프로토콜을 사용해야 한다. (SSE-KMS, SSE-S3, CSE 세가지는 HTTPS가 반드시 필요한건 아니다)
+44	: CodeCommit Repository는 전송중/저장중 데이터 모두 암호화 한다. 개발자가 코드를 암호화할 필요는 없다.
+46	: KMS 암호화 S3 API 요청은 'x-amz-server-side-encryption': 'aws:kms'를 포함해야 한다. 'SSE:KMS'가 아니다.
+53	: Lambda Invoke Trigger로, Custom Source 같은건 없다. CloudWatch Event 규칙을 만들어서 Invoke 해줘야 한다.
+54	: ProjectArtifacts는 Build의 결과물이다. 빌드가 끝나고 결과물을 S3에 올리고 싶다면, CodeBuild가 S3에 접근할 수 있는 권한을 부여해야 한다.
+63	: ELB-NACL 통합을 하려면, NACL의 1024-65535 포트를 열어줘야 한다. (NAT 게이트웨이도 마찬가지), 리눅스 커널은 32768-61000, 윈도우2003은 1025-5000, 윈도우2008이상은 49152-65535
+64	: S3 객체의 로그를 얻으려면, 해당 계정도 S3 객체의 Owner여야 한다.
+65	: ㅠ.ㅠ Redis 클러스터 모드까지 알려면 양이 너무 많아.. 패스하자
