@@ -180,3 +180,32 @@ TODO
 
 [유데미 5회차]
 3	: 캐시와 백엔드DB는 별도의 시스템이므로, 단일 트랜잭션에서 동시에 수정할 수 없다. 따라서 DB업데이트 후, Cache Invalidate가 정답.
+6	: Macie란? 민감한 정보를 검색하고 가시성을 제공하며, 검토 및 수정의 기회를 제공함. SensitiveData:S3Object/Financial = 금융정보타입, ~/CustomIdentifier = 고객식별자타입, ~/Personal
+7	: ★주의★ Rolling/AddtionalBatchRolling 에서 중요한거 => Batch Size는 새로운 배포를 진행할 인스턴스의 사이즈를 뜻한다. 남기는 인스턴스가 아니다.
+8	: Cognito User Pools의 이벤트 종류에는 Pre-Authentication, Post-Authentication 둘 모두 존재한다. 하지만 인증 후 처리를 원하면 post가 정답.
+9	: S3의 페이징은 DynamoDB와 다르다. S3 CLI 명령어에 3가지 옵션을 줄 수 있다. 1)--max-items, 2)--starting-token, 3)--page-size  여기서 3)은 옵션이다.
+11	: ★주의★ package.jon, requirement.txt 요런 의존성주입은 "Beanstalk"의 패키지 방법이다. Lambda에 의존성주입을 위해서는 반드시 동일한 폴더에 의존성을 넣고 일괄압축해야 한다.
+14	: Cache Lazy Loading이란? cache에 데이터가 없거나 TTL로 인해 만료되었을 경우에만 Cache에 값을 쓴다.
+17	: EC2의 인스턴스ID, 보안그룹 등을 조회 하고 싶으면 어디다 물어봐? -> IP/latest/meta-data !!   그럼 IP/latest/user-data는 어따써? -> 인스턴스를 시작할때 사용한 유저 정보 조회할때.
+19	: X-Ray는 트레이스당 최대 50개의 Annotations을 인덱싱할 수 있다.
+21	: 로드밸런서에 SSL 인증서를 할당하면, 로드밸런서는 HTTPS 엔드포인트를 노출할 수 있다.
+22	: CLI로 ECS 띄우는법 -> aws ecr create-service --service-name ecs-simple-service --task-definition ecs-demo --desired-count 10
+25	: S3관련 팩트들. ->  1)S3 버전관리는 모든 개체에 적용된다, 2)파일을 덮어쓰면 버전이 증가한다, 3)버전 관리를 활성화하기 전의 모든 파일들은 null 버전을 갖는다.
+26	: 502(Bad Gateway)원인 : 프로토콜이 잘못됨
+27	: CloudWatch는 cron 이벤트를 발생시킬 수 있다.
+30	: RDS도 오토스케일링이 가능하다! Aurora만 있는거 아니다.
+32	: STS는 임시인증토큰 서비스이다. 만료기간은 Default로 1시간이며, 15분~1시간 내로 설정 가능하다.
+33	: X-Ray 데몬 컨테이너를 띄우는 방법: 1)Fargate에서는 sidecar 컨테이너를 띄워야함. 왜냐하면 기존 컨테이너는 컨트롤이 불가능함. 2)ECS 클래식에서는 기본 EC2에 띄우면 됨.
+38	: KMS의 데이터키를 캐싱할수도 있다.(SDK를 사용하면 가능, 하지만 주의해서 써야 함)
+42	: S3와 DynamoDB가 지원하는 인터페이스 ★웬만하면 게이트웨이 엔드포인트 쓰자★
+ - S3		: 게이트웨이엔드포인트(O), 인퍼테이스엔드포인트(O), API엔드포인트(이런거없음)
+ - DynamoDB	: 게이트웨이엔드포인트(O), 인퍼테이스엔드포인트(X), API엔드포인트(이런거없음)
+48	: Beanstalk의 .ebextention은 버전관리에 도움을 주지 못한다. 버전 관리는 "수명주기"로 할 수 있다.
+50	: CloudFormation 템플릿으로 람다를 띄우려면, S3/직접작성 두가지 방법밖에 없다. 단, 직접작성하는 경우 외부라이브러리는 사용할 수 없다.
+53	: ★또틀림★ API Gateway 에서의 인증 - 유저풀(O), 람다Authorizer(O), Standard IAM role and policy(O), STS(X)
+55	: S3의 multi-part 업로드는 100MB 이상 파일부터 권장하며, 5GB이상 파일엔 필수다. S3 Transfer Acceleration을 활용하면 빠르게 업로드 가능하다.
+56	: CodePipeline은 Lambda를 직접 invoke할 수 없다.
+57	: Beanstalk 환경에서, 오래걸리는 작업을 하는 인스턴스를 Dedicated Worker Environment로 설정하면 좋다.
+59	: CodeStar는 개발~배포 기능뿐 아니라, 통합UI까지 제공함.
+64	: Lambda의 성능향상 기법으로, Provisioned Concurrency가 유용하다. 할당된 동시성을 이용하여 초기화 코드에 걸리는 시간을 단축시킬 수 있다.
+
