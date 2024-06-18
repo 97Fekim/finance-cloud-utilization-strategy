@@ -189,7 +189,7 @@ TODO
 17	: EC2의 인스턴스ID, 보안그룹 등을 조회 하고 싶으면 어디다 물어봐? -> IP/latest/meta-data !!   그럼 IP/latest/user-data는 어따써? -> 인스턴스를 시작할때 사용한 유저 정보 조회할때.
 19	: X-Ray는 트레이스당 최대 50개의 Annotations을 인덱싱할 수 있다.
 21	: 로드밸런서에 SSL 인증서를 할당하면, 로드밸런서는 HTTPS 엔드포인트를 노출할 수 있다.
-22	: CLI로 ECS 띄우는법 -> aws ecr create-service --service-name ecs-simple-service --task-definition ecs-demo --desired-count 10
+22	: CLI로 ECS 띄우는법 -> aws ecs create-service --service-name ecs-simple-service --task-definition ecs-demo --desired-count 10
 25	: S3관련 팩트들. ->  1)S3 버전관리는 모든 개체에 적용된다, 2)파일을 덮어쓰면 버전이 증가한다, 3)버전 관리를 활성화하기 전의 모든 파일들은 null 버전을 갖는다.
 26	: 502(Bad Gateway)원인 : 프로토콜이 잘못됨
 27	: CloudWatch는 cron 이벤트를 발생시킬 수 있다.
