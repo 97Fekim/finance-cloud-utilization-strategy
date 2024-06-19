@@ -209,3 +209,8 @@ TODO
 59	: CodeStar는 개발~배포 기능뿐 아니라, 통합UI까지 제공함.
 64	: Lambda의 성능향상 기법으로, Provisioned Concurrency가 유용하다. 할당된 동시성을 이용하여 초기화 코드에 걸리는 시간을 단축시킬 수 있다.
 
+
+[유데미 6회차]
+
+
+50	: provisioned 동시성 vs reserved 동시성

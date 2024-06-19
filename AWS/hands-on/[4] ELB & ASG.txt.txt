@@ -1,0 +1,24 @@
+=================================[1] ALB Hands On=================================
+▶ ALB 생성
+  ▶ EC2 > 로드밸런서 > ALB 생성
+    - Step1: AZ를 특정한다 (2a + 2b + 2c)
+	- Step2: ALB용 보안그룹을 만들어서 부착한다. (만들기버튼있음)
+	- Step3: 타깃 그룹을 생성하여 적용. (만들기버튼있음, 인스턴스 포함시켜서 쭉 진행하면 됨.)
+	
+▶ ALB-인스턴스 간 보안강화 (보안그룹 제한)
+  ▶ EC2 > 보안그룹
+    - Step1: 인바운드 소스를 Anyware에서 ALB로 교체한다.
+  ▶ EC2 > 로드밸런서 > hands-on-alb
+    - Step1: HTTP:80 리스너 설정으로 이동
+	- Step2: 조건 추가 클릭하여 원하는 필터링 설정. (경로, 헤더, 등등 설정) 
+	- Step3: 원하는 조건일때, 어떤 행동을 취할지 설정. (대상그룹으로 전달, 리디렉션, 고정응답 등)
+	  (Step2+Step3 짬뽕으로 /error일때 404를 던지도록 구현 가능함)
+	- Step4: 우선순위 설정 (우선순위가 높은게 이김)
+	
+TODO
+64. NLB - Hands On
+66. Sticky Sessions
+67. Cross Zone LB
+69. SSL Certificates - Hands On
+72. ASG Hands On
+74. Scailing Policy - Hands On
