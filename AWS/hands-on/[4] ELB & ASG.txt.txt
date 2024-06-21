@@ -14,11 +14,51 @@
 	- Step3: 원하는 조건일때, 어떤 행동을 취할지 설정. (대상그룹으로 전달, 리디렉션, 고정응답 등)
 	  (Step2+Step3 짬뽕으로 /error일때 404를 던지도록 구현 가능함)
 	- Step4: 우선순위 설정 (우선순위가 높은게 이김)
+
+▶ NBL 생성
+  ▶ EC2 > 로드밸런서 > ALB 생성
+    - Step1: VPC, AZs를 지정한다.
+	- Step2: 필요에 맞게, 보안그룹을 설정한다.
+	- Step3: ★리스너 및 라우팅★ 설정한다. (프로토콜타입, 포트넘버에 따라 어디로 보낼지 설정)
+	- Step4: Target Groupd을 설정한다.
 	
-TODO
-64. NLB - Hands On
-66. Sticky Sessions
-67. Cross Zone LB
-69. SSL Certificates - Hands On
-72. ASG Hands On
-74. Scailing Policy - Hands On
+▶ Sticky Sessions 설정하기.
+  ▶ EC2 > 대상 그룹 > 하나잡고 대상 그룹 속성 편집
+    - Step1: (체크) 고정 켜기
+	- Step2: 로드밸런서생성쿠키/애플리케이션기반쿠기 둘중 하나 고르고, 지속시간 설정하기.
+	- Step3: 웹 Network 탭에 가서 쿠키 확인해보기.
+	- Step4: 끌려면? Step1으로 가서 체크해제하기.
+
+▶ Cross-Zone Load Balancing On/Off
+  ▶ ALB: Default=ON / 끄려면 Target Group에서 꺼야함.
+  ▶ NLB: Default=OFF / 켜려면 로드밸런서 설정
+	
+▶ ELB HTTPS 설정
+  ▶ 리스너 및 라우팅 설정파트에서 443 포트를 열고, 추가 설정을 한다.
+  
+▶ ASG 만들기
+  ▶ EC2 > Auto Scaling 그룹 > Auto Scaling 그룹 생성
+    - Step1: 시작 템플릿 만들기
+	  - Step2: (템플릿) AMI, 인스턴스 타입 설정.
+	  - Step3: (템플릿) 서브넷은 설정하지 않아도?됨.
+	- Step4: 템플릿 고르기.
+	- Step5: VPC, AZ 선택하기.
+	- Step6: (선택) 로드밸런서와 연결하기. 
+	- Step7: (체크) ELB 상태 확인 켜기
+	- Step8: Desire, Max, Min 인스턴스 용량 정하기.
+	
+▶ ASG 사이즈 조절
+  ▶ ASG 잡고, 세부 정보 탭으로 이동
+    - Step1: 편집클릭
+	- Step2: 원하는 사이즈로 조정하기.
+
+▶ ASG Scaling Policy
+  ▶ ASG 잡고, Automatic scaling 탭으로 이동.
+    - Selection1: Scheduled 스케일링 (목표/최대/최소 사이즈 및 트리거주기, 시작시간 설정 가능)
+	- Selection2: Predicted 스케일링 (머신러닝 기반 예측. 지정한 지표가 임계치를 넘겠다 싶음ㄱ)
+    - Selection3: Dynamic 스케일링 
+	   - 대상 추적 크기 조정: 특정 지표를 N값으로 유지하도록 Scaling out/in
+	   - 단순 크기 조정: (CW 경보가 울리면, 증가/제거)
+	   - 단계 크기 조정: (CW 경보가 울리면, 증가/제거) + 단계절차를 추가 가능.
+	   
+
