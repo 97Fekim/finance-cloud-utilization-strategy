@@ -1,0 +1,13 @@
+============================[1] S3 Life-cycle Rules Hands On==========================
+▶ 특이사항 없음. 그냥 만들면 됨.
+
+===========================[2] S3 Event Notification Hands On=========================
+▶ ★★이벤트 알람 만들기★★
+  ▶ S3 > 버킷 > myBucket > 속성탭
+    - Step1: 어떤 API 발생시 Event를 만들지 선택 (Ex. allCreate, allDelete ..)
+	- Step2: SQS, SNS, Lambda 셋 중 하나를 목적지로 선택.
+	- Step3: ★권한설정★ SQS를 목적지로 설정했다면, SQS Policy를 수정하여 S3가 접근가능하도록 해야 함. (SQS 권한 편집탭으로 가서, 정책 편집기를 이용하여 정책을 만든 후 Assume 한다.)
+	
+	
+▶ 이벤트 브릿지와 통합하기	
+  ▶ S3 > 버킷 > myBucket > 속성탭
