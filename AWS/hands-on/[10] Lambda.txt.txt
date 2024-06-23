@@ -1,0 +1,115 @@
+============================[1] 함수 생성 Hands On==========================
+▶ 특이사항1: 구성 탭에서 메모리, 타임아웃 설정가능.
+▶ 특이사항2: 모니터링 탭을 잘 활용하자. (CW logs에서 볼수도 있음)
+
+
+============================[2] Sync 호출 Hands On==========================
+▶ DVA-C02 > ... > lambda > synchronous.sh 참조하기.
+  ▶ 특이사항: --invocation-type Event 를 명시하지 않으면 sync로 호출함.
+  
+  
+============================[3] Async 호출 & DLQ Hands On==========================
+▶ DVA-C02 > ... > lambda > asynchronous.sh 참조하기.
+  ▶ 특이사항1: --invocation-type Event 를 명시하면 async로 호출함.
+  ▶ 특이사항2: async 호출시 응답을 바로 받을 수 없음. 다만 CW log로 확인해보면 됨.
+  ▶ 특이사항3: 구성 > 비동기적호출 탭에 가서, 비동기 호출과 관련된 설정을 적용할 수 있음 (재시도 횟수, DLQ 통합 등)
+
+
+============================[4] ALB - Lambda 통합 Hands On==========================
+▶ ALB 생성
+  ▶ 특이사항1: EC2 ALB와 동일하게 가다가, Target Group을 생성할때 EC2 말고 Lambda를 지정해줘야 함.
+  ▶ 특이사항2: ★HTTP Response 형태로 ALB가 응답하려면★ Lambda Response 응답코드를 아래 형식을 지켜 작성하자.
+  ```
+  {
+    "statusCode": 200,
+    "statusDescription": "200 OK",
+    "isBase64Encoded": False,
+    "headers": {
+        "Content-Type": "text/html"
+    },
+    "body": "<h1>Hello from Lambda!</h1>"
+  }
+  ```
+  ▶ 특이사항3: Lambda의 리소스기반 정책에 가보면, ALB-TG가 Invoke할 수 있도록 권한이 부여되있음을 확인 가능하다.
+  ▶ 특이사항4: Lambda의 트리거탭에 가보면, ALB가 등록되어 있음을 확인할 수 있다.
+  
+  
+============================[5] EventBridge - Lambda 통합 Hands On==========================
+▶ EventBridge 생성
+  ▶ - Step1: 원하는 이벤트 설정 (Ex. 매분마다 cron 실행)
+  ▶ - Step2: 대상으로 Lambda를 선택. (Invoke 역할은 자동으로 생성됨.)
+  
+  
+============================[6] S3 Event Notification - Lambda 통합 Hands On==========================
+▶ Step1: S3 Event Notification 생성하기 (목적지를 Lambda로 설정)
+▶ Step2: Lambda로 가서, 트리거랑 권한 등이 잘 생겼는지 확인.
+▶ Step3: S3 버킷에 파일업로드해서 테스트하기.
+
+
+============================[7] Event Mapping Hands On==========================
+▶ Lambda-SQS 통합하기
+  ▶ - Step1: SQS 만들기
+  ▶ - Step2: Lambda의 개요에서 Add Trigger 이용해서 SQS 추가하기.
+  ▶ - Step3: 배치 사이즈, 윈도우 사이즈 지정
+  ▶ - Step4: Lambda의 Excution Role에다가 SQS에 접근권한을 줘야 함. (★AWSLambdaSQSQueueExecutionRole★ 을 추가하자.)
+  
+  
+============================[8] Lamda-Destination 통합 Hands On==========================
+▶ 성공/실패 목적지를 성공SQS/실패SQS로 지정하기.
+  ▶ 특이사항1: Lambda 목적지 설정하면 끝임. 엄청 간단함.
+  ▶ 특이사항2: 권한은 자동으로 생성된다.
+  ▶ 특이사항3: ★목적지 SQS의 메시지에는 이벤트 소스의 정보 또한 담겨온다.★
+  
+  
+============================[9] Lamda IAM Roles & Resource Policies Hands On==========================
+▶ Execution Roles  vs  Resource Policies
+  ▶ Execution Roles: Lambda가 SQS를 트리거로 실행될때는, SQS의 메시지를 직접 poll하기 때문에 Execution Role이다. 리소스 정책 아님.
+  ▶ Resource Policies: ALB, S3 Event 등의 트리거로 Lambda가 실행될때는, SQS는 Invoking 당하는 입장이므로 리소스기반 정책임.
+
+
+============================[10] Environment Variables Hands On==========================
+▶ 코드에서 환경변수를 사용하는법: 언어마다 다름...ㅠ 구글에 검색해서 썽
+▶ 환경변수를 편집하는법: 구성탭 > 환경변수 ㄱㄱ
+  
+  
+============================[11] Lambda 모니터링 Hands On==========================
+▶ 방법1: 모니터링 탭에서 다양한 지표 확인하기
+▶ 방법2: CloudWatch Logs 확인하기.
+▶ 방법3: X-Ray 활성화하여 관찰하기. (활성화하면 Execution Role에 X-Ray에 대한 권한이 추가된다.)
+
+
+============================[12] Lambda VPC Hands On==========================
+▶ Lambda 함수를 VPC에 넣기.
+  ▶ - Step1: Lambda-VPC용 보안그룹 만들기
+  ▶ - Step2: Lambda Execution Role에 AWSLambdaENIManagementAccess 정책을 추가하기. (Lambda가 VPC내에 존재할 수 있도록 함)
+  ▶ - Step3: Lambda의 VPC탭으로 가서, 보안그룹을 부착시키고 VPC에 배포하기
+  ▶ 이걸 왜 하는지는 잘 모름 ㅠ
+
+
+============================[13] Lambda Performance Hands On==========================
+▶ Configure1: 메모리 할당량을 늘려서 처리속도를 조정한다.
+▶ Configure2: 타임아웃을 제어한다.
+
+
+============================[14] Lambda Layer Hands On==========================
+▶ Step1: 맨 하단으로 가서 Add Layer ㄱㄱ
+▶ Step2: AWS Layer, Custom 등 원하는거 선택. 끝.
+
+
+============================[15] Lambda Concurrency Hands On==========================
+▶ 특이사항: 구성 > 동시성 탭으로 가서 그냥 하면됨.
+
+
+============================[15] Lambda Concurrency Hands On==========================
+▶ DVA-C02 > ... > lambda > with-dependencies 참조하기.
+▶ 특이사항1: AWS CLI에서 Lambda함수를 create한다는 점.
+▶ 특이사항2: index.js + 외부종속성을 함께 압축한다는 점.
+▶ 특이사항3: Lambda 코드가 AWS 서비스에 접근한다면, 필요한 권한을 Lambda를 생성할때부터 Execution Role에 부여해야 한다는 점.
+
+
+
+
+TODO
+[16] Lambda And CloudFormation
+[17] Lambda Versions and Alias
+[18] Lambda Function URL

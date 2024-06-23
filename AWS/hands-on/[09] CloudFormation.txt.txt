@@ -1,0 +1,17 @@
+============================[1] Stack Create Hands On==========================
+▶ DVA-C02 > ... > cloudformation > 0-just-ec2.yaml 참조하기.
+  ▶ 특이사항1: EC2 Instance를 AZ, AMI를 지정하여 생성하는 실습자료 참조 가능
+
+============================[2] Stack Update & Delete Hands On==========================
+▶ DVA-C02 > ... > cloudformation > 1-ec2-with-sg-eip.yaml 참조하기.
+  ▶ 특이사항1: Parameter, !Ref 실습자료 참조 가능.
+  ▶ 특이사항2: EIP, 보안그룹 생성하는 실습자료 참조 가능.
+  ▶ 특이사항3: 모든 리소스를 종료하려면, 스택을 삭제하자.
+
+============================[3] Service Role Hands On==========================
+▶ 특이사항: IAM Role을 첨부하지 않고 스택을 만들면, Account의 역할을 갖는다. 그게 싫으면, Role을 새로 만든 후 스택을 만들때 첨부한다(Ex. S3 Create Access Allow)
+
+============================[4] Deletion Policy Hands On==========================
+▶ 특이사항1: Default 는 Deletion Policy: Delete 이다.
+▶ 특이사항2: S3는 예외인데, 버킷이 비어있을때만 디폴드가 Delete 이다.
+▶ 특이사항3: 종류는 Delete, Retain, Snapshot 세가지다.
