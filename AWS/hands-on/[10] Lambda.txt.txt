@@ -107,9 +107,28 @@
 ▶ 특이사항3: Lambda 코드가 AWS 서비스에 접근한다면, 필요한 권한을 Lambda를 생성할때부터 Execution Role에 부여해야 한다는 점.
 
 
+============================[16] Lambda And CloudFormation Hands On==========================
+▶ DVA-C02 > ... > lambda > lambda-cloudformation 참조하기.
+▶ 특이사항1: CloudFormation이 Lambda의 소스코드를 S3에서 가져오도록 함.
+▶ 특이사항2: CloudFormation 템플릿에, 적절한 권한을 생성하도록 설정함.
+▶ 특이사항3: Parameters를 활용하여, 리소스의 ID들을 사용자가 입력하도록함 (Ex. S3이름, S3키, S3파일버전)
+▶ 특이사항4: Fn::GetAtt, Code:S3Bucket:Ref: 을 활용하여 버킷 정보를 사용자가 입력하여 참조하는 방법숙지.
 
 
-TODO
-[16] Lambda And CloudFormation
-[17] Lambda Versions and Alias
-[18] Lambda Function URL
+============================[17] Lambda Versions and Alias============================
+▶ Lambda 버전 관리하기.
+  ▶ - Step1: 작업 > 새버전발행 ㄱㄱ
+  ▶ - Step2: 코드를 업데이트하고, 변경사항을 저장한다. 끝.
+  ▶ - Step3: 다시 새로운 버전을 배포하고 싶다면, Step1,2를 반복한다.
+
+▶ Lambda Alias 관리하기.
+  ▶ 예시1: $LATEST를 DEV라는 이름을 가진 Alias로 지정하면, $LATEST 버전이 바뀌더라도 DEV를 테스트하면 $LATEST가 호출된다.
+  ▶ 예시2: 버전1, 버전2에 50%/50% 씩 트래픽을 보내는 Alias를 구성할수도 있다.
+  
+
+============================[18] Lambda Function URL============================
+▶ Lambda URL 만들기
+  ▶ 특이사항1: Version 이나 Alias 를 만들면, 함수URL을 만들수 있다.
+  ▶ 특이사항2: 인증유형을 NONE으로 구성하면, 모든 사용자가 인증되도록 하는 lambda:InvokeFunctionUrl 리소스 정책이 부착된다.
+  ▶ 특이사항3: CORS 설정이 가능하다.
+
