@@ -1,1 +1,43 @@
-============================[1]  Hands On==========================
+============================[1] API Gateway Basics Hands On==========================
+▶ API Gateway 생성하기
+  ▶ 특이사항1: HTTP, REST, WebSocket 중 선택
+  ▶ 특이사항2: 지역, AZ, Private 중 하나에 배포
+  ▶ ★메서드생성★
+    ▶ - Step1: Method 선택
+    ▶ - Step2: 통합대상 선택(Ex. Lambda, Http, Service ...)
+    ▶ - Step3: ★(체크)Lambda 프록시 통합 - Lambda와 통합할경우
+  ▶ 특이사항3: 디버깅을 위해서, Lambda의 event를 출력해보면 좋다.
+
+▶ 리소스 생성하기
+  ▶ 리소스 생성 ㄱ
+  ▶ 만들어진 리소스에 똑같이 Method 생성 ㄱㄱ
+
+▶ API 배포하기
+  ▶ - Step1: 우측하단 "배포" ㄱㄱ
+  ▶ - Step2: 모든 리소스를 Public에서 접근 가능해짐!
+
+
+============================[2] API Gateway Stages and Deployment Hands On==========================
+▶ 
+  ▶ - Step1: Lambda를 세가지 버전으로 준비한다. { v1, v2, $LATEST }
+  ▶ - Step2: Alias를 구성한다 { $LATEST:DEV, v2:TEST, v1:PROD }
+  ▶ - Step3: Method를 만드는데, ★ Lambda의 ARN을 우측처럼 구성한다. [LAMBDA_ARN}:${stageVariables.lambdaAlias} ★
+  ▶ - Step4: Warning 표시된 커맨드를 CloudShell에서 입력해준다. 
+             (이때, ${stageVariables.lambdaAlias} 부분을 진짜 StageVariable들로 바꿔서 모두 입력해줘야 함.)
+			 (EX. DEV한번, PROD한번, TEST한번)
+  ▶ - Step5: Lambda의 Alias탭으로 가서 DEV,TEST,PROD 를 각각 조회해보면서 SourceMapping이 잘 되었는지, Resource Policy는 잘 생성되었는지 확인한다.
+  ▶ - Step6: API Gateway를 테스트 할때, Stage Variables에 D,T,P 셋 중 하나의 값을 넣어서 결과를 확인한다. (빈값 넣으면 오류, 이상한거 넣어도 오류)
+  ▶ - Step7: 스테이지명을 DEV, TEST, PROD로 각각 배포하고, Stage Variables에 { lambdaAlias:DEV }, { lambdaAlias:TEST }, { lambdaAlias:PROD } 를 설정해준다.
+  ▶ - Step8: URL에 endpoint/stage-variables 를 입력하여, 각 스테이지별 람다가 호출되는지 확인한다.
+
+============================[3] API Gateway Stages Configurations Hands On==========================
+
+============================[4]API Gateway Canary Deployments Hands On============================
+ 
+============================[5]API Gateway Mapping Templates Hands On============================
+ 
+============================[6]API Gateway Open API - Hands On============================
+ 
+============================[7]API Gateway Caching============================
+ 
+============================[8]API Gateway Authentication and Authorization - Hands On============================
