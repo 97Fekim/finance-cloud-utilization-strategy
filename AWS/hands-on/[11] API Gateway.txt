@@ -30,6 +30,7 @@
   ▶ - Step7: 스테이지명을 DEV, TEST, PROD로 각각 배포하고, Stage Variables에 { lambdaAlias:DEV }, { lambdaAlias:TEST }, { lambdaAlias:PROD } 를 설정해준다.
   ▶ - Step8: URL에 endpoint/stage-variables 를 입력하여, 각 스테이지별 람다가 호출되는지 확인한다.
 
+
 ============================[3] API Gateway Stages Configurations Hands On==========================
 
 ============================[4]API Gateway Canary Deployments Hands On============================

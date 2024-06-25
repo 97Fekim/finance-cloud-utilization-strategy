@@ -1,0 +1,87 @@
+==============================[1] Game 1. Unicorn Party - Difficulty Easy==============================
+▶ 문제설명
+  ▶ No Code 기반의 PartyRock 서비스를 활용하여 생성형 AI 앱 개발
+  ▶ 제공된 애플리케이션의 버그를 수정
+
+▶ 사용 가능한 컴포넌트
+  ▶ 1) User Input
+  ▶ 2) Static Text
+  ▶ 3) Document
+  ▶ 4) Text Generation
+  ▶ 5) Image Generation
+  ▶ 6) Chatbot
+
+▶ 컴포넌트별 커스터마이징 가능한 요소
+  ▶ 4) Text Generation
+    ▶ 4-1) Model
+	▶ 4-2) Temperature (Advance Settngs)
+	▶ 4-3) Top P (Advance Settngs)
+  ▶ 5) Image Generation
+    ▶ 5-1) Model
+	▶ 5-2) Style preset (Advance Settngs)
+	▶ 5-3) Negative prompt (Advance Settngs)
+	▶ 5-4) CFG scale (Advance Settngs)
+	▶ 5-5) Seed (Advance Settngs)
+  ▶ 6) Chatbot 
+    ▶ 6-1) Model
+	▶ 6-2) Temperature (Advance Settngs)
+	▶ 6-3) Temperture (Advance Settngs)
+	▶ 6-4) Top P (Advance Settngs)
+
+▶ 예상되는 버그 유형
+  ▶ 1) IO 문제
+    ▶ 예상원인1: 부적절한 참조로 인해 잘못된 Input의 값이 프롬프트에 사용됨.
+  ▶ 2) 부정확한 결과
+    ▶ 예상원인1: 극단적인 값의 파라미터가 설정됨. 
+	            (Ex. 너무 높거나 낮은 Top P, 부적절한 Netative Prompt etc..)
+  ▶ 3) 과도한 과금
+    ▶ 예상원인1: 퍼블릭 엑세스가 허용된 상태에서, 악의적인 DDoS 공격?
+  ▶ 4) 퍼블릭 엑세스 불가능
+    ▶ 예상원인1: 퍼블릭 배포가 안됨.
+  ▶ 5) RUN 버튼을 누르지 않아도 프롬프트가 실행됨.
+    ▶ Autoplay가 Enable 되어 있음.
+
+▶ 문제 풀이를 위한 전략
+  
+  
+  
+
+
+
+==============================[2] Game 2. Voice of the Unicorn - Difficulty Medium==============================
+▶ 문제설명
+  ▶ Amazon Transcribe를 통해 오디오 -> 텍스트
+  ▶ Amazon Bedrock을 통한 요약
+  ▶ AWS Step Function을 활용한 Pipeline 구축
+  ▶ 상담 내역 분석을 자동화 합니다.
+
+▶ 문제 풀이를 위한 전략
+  :테크캠프 Hands-on 실습 과정을 충분히 이해하고 커스터마이징 함을 통해서, 문제를 처음 봤을때의 거부감을 줄이고 발생할만한 이슈가 어떤것이 있는지 탐색하기.
+    ▶ 1) Hands-On 실습의 Integration
+	  ▶ 1-1) (MediaConvert) + Transcribe + Bedrock   으로 비디오->자막텍스트->요약  처리함.
+	  ▶ 1-2) 구조: ALB <-> Lambda <-> Bedrock 
+    ▶ 2) 커스터마이징 목표
+      ▶ 2-1) Transcribe + Bedrock   으로 오디오->요약  처리함.
+	  ▶ 2-2) 구조: APIGateway <-> StepFunction Pipeline { Lambda(with Transcribe) <-> Lambda(with Bedrock) }
+
+
+
+
+
+==============================[3] Game 3. Mysitic Code Quest - Difficulty Medium==============================
+▶ 문제설명
+  - Bedrock API를 활용하여 빌드
+  - Lambda를 통한 Bedrock API 통합
+  - API Gateway를 통한 배포
+  - 수수께끼를 풀기 위한 프롬프트 엔지니어링
+  - (심화) DevOps 기술 필요!
+
+
+
+
+
+==============================[4] Game 4. UniCare - Difficulty Hard==============================
+▶ 문제설명
+  - Bedrock의 Knowledge Base 생성
+  - Bedrock Agent를 빌드
+  - 유니콘 건강 문제를 해결합니다.

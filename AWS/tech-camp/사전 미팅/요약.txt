@@ -1,0 +1,20 @@
+[게임 설명]
+
+첫번쨰게임: ?
+두번째게임: 대부분은 건들필요 없음. but, 파이썬 코드의 일부를 수정해야함
+세번째게임: Bedrock. API를 활용하는게 핵심. Lambda에서 Bedrock API 사용하는거 중요. 마지막으로 API Gateway로 배포.
+네번쨰게임: ?
+
+
+
+[ML]
+
+PartyRock
+Amazon Transcribe
+Amazon Bedrock
+ - Cluade 모델을 주로 사용할거임.
+Stepfunction: 수정할필요X
+CodeCommit: 내려받을때만 씀
+API Gateway: 람다를 통해 배포가 됨?
+ECS: 배포할때 사용함.
+
