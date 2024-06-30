@@ -25,7 +25,6 @@ import time
 
 MODEL_ID = 'anthropic.claude-3-sonnet-20240229-v1:0'
 BUCKET_NAME = os.environ.get('BUCKET_NAME')
-MEDIA_CONVERT_ROLE = os.environ.get('MEDIA_CONVERT_ROLE')
 
 
 s3 = boto3.client('s3')
@@ -37,8 +36,8 @@ def handler(event, context):
     # ASIS: Video
     # TOBE: Image
     audio_name = event['body']['name']
-    print("==============event_dict==============")
     print(audio_name)
+
     job_name = str(uuid.uuid4())
 
     transcribe.start_transcription_job(
@@ -93,5 +92,5 @@ def handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': json.dumps(response)
+        'body': response
     }
