@@ -1,0 +1,45 @@
+=============================원문=============================
+{
+  "ResponseMetadata": {
+    "RequestId": "9cbf1c12-c28e-4eb0-8a80-dd4d5c172359",
+    "HTTPStatusCode": 200,
+    "HTTPHeaders": {
+      "date": "Sun, 30 Jun 2024 08:33:41 GMT",
+      "content-type": "application/json",
+      "content-length": "1072",
+      "connection": "keep-alive",
+      "x-amzn-requestid": "9cbf1c12-c28e-4eb0-8a80-dd4d5c172359",
+      "x-amzn-bedrock-invocation-latency": "10486",
+      "x-amzn-bedrock-output-token-count": "360",
+      "x-amzn-bedrock-input-token-count": "676"
+    },
+    "RetryAttempts": 0
+  },
+  "contentType": "application/json",
+  "body": "<botocore.response.StreamingBody object at 0x7f1d9493ca60>"
+}
+
+
+=============================response_body = json.loads(원문.get('body').read())=============================
+{
+  "id": "msg_bdrk_015rDKEJ9Y7SYfgobUSiG9po",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-sonnet-20240229",
+  "content": [
+    {
+      "type": "text",
+      "text": "1) 주제: 자연스럽고 효과적인 영어 학습 방법\n\n2) 글쓴이의 기분: 현재의 학교 교육 체계에 대한 비판적이고 안타까운 마음을 갖고 있음. 그는 학생들이 교실 밖에서 자연스럽게 영어를 배우는 것이 중요하다고 강조하며, 이를 통해 영어를 더 빠르고 쉽고 재미있게 배울 수 있다고 믿고 있음.\n\n요약:\n이 글에서 작가는 전통적인 교실 수업 방식이 비효과적이며 인위적이라고 지적합니다. 대신 자연스럽고 학생 주도적인 방법으로 영어를 배우는 것이 중요하다고 주장합니다. 작가는 듣기 연습을 가장 중요한 핵심 기술로 꼽으며, 교육 시스템을 떠나 독립적 학습자가 되어 즐겁고 자연스럽게 영어를 배울 것을 권유합니다."
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": "None",
+  "usage": {
+    "input_tokens": 676,
+    "output_tokens": 360
+  }
+}
+
+
+=============================output = response_body['content'][0]['text']=============================
+1) 주제: 자연스럽고 효과적인 영어 학습 방법\n\n2) 글쓴이의 기분: 현재의 학교 교육 체계에 대한 비판적이고 안타까운 마음을 갖고 있음. 그는 학생들이 교실 밖에서 자연스럽게 영어를 배우는 것이 중요하다고 강조하며, 이를 통해 영어를 더 빠르고 쉽고 재미있게 배울 수 있다고 믿고 있음.\n\n요약:\n이 글에서 작가는 전통적인 교실 수업 방식이 비효과적이며 인위적이라고 지적합니다. 대신 자연스럽고 학생 주도적인 방법으로 영어를 배우는 것이 중요하다고 주장합니다. 작가는 듣기 연습을 가장 중요한 핵심 기술로 꼽으며, 교육 시스템을 떠나 독립적 학습자가 되어 즐겁고 자연스럽게 영어를 배울 것을 권유합니다.
