@@ -1,9 +1,9 @@
 ===========[1] Execution Role 만들기===========
-aws iam create-role --role-name seungchulkim-game3-quest-to-answer-lambda --assume-role-policy-document '{"Version": "2012-10-17","Statement": [{ "Effect": "Allow", "Principal": {"Service": "lambda.amazonaws.com"}, "Action": "sts:AssumeRole"}]}'
+aws iam create-role --role-name seungchulkim-game4-portfolio-creator-actions-lambda --assume-role-policy-document '{"Version": "2012-10-17","Statement": [{ "Effect": "Allow", "Principal": {"Service": "lambda.amazonaws.com"}, "Action": "sts:AssumeRole"}]}'
 
 
 ===========[2] 신뢰정책 첨부하기===========
-aws iam attach-role-policy --role-name seungchulkim-game3-quest-to-answer-lambda --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+aws iam attach-role-policy --role-name arn:aws:iam::415349251062:role/seungchulkim-game4-portfolio-creator-actions-lambda --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
 
 
 ===========[3] 람다함수 만들기 (파라미터주의)===========
