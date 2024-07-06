@@ -76,7 +76,76 @@
 
 
 [유데미 1회차]
-TODO
+1	: CodeBuild TimeOut를 설정할 수 있다. Default는 8시간이며, 원한다면 5분 ~ 8시간 내의 시간을 설정 가능하다.
+7	: (1)DeleteQueue = 큐 및 메시지 모두 삭제 / (2)PurgeQueue = 메시지만 삭제
+14	: IAM for CodeCommit에서 지원/비지원 하는 것
+ - (O) Git Credentials
+ - (O) AWS Access Keys
+ - (O) SSH Keys
+ - (X) IAM Username / Password
+18	: 새로운 버전의 API를 개발할때는, Staging을 활용하는게 가장 좋다. (예를들어, PROD는 고객들이 사용중인데 DEV API를 개발해야 하는 경우)
+ - (X) API 자체를 새로 개발 -> 효율적이지 않음
+ - (X) API KEY 생성 -> API KEY는 버전이랑 관련 없음
+ - (X) 카나리아 배포 -> 뚱딴지
+19	: API Gateway의 "읽기" 성능을 개선하고 싶은 경우에는 API Caching이 유력한 정답 후보임.
+21	: RDS의 SQL 최적화와 관련된 문제는 Read Replica가 정답일 확률이 높음.
+ - (X) MultiAZ -> 고가용성 목적임
+ - (X) Elastic Cache -> 쿼리최적화 목적은 아님.
+23	: Bind Mounts는 임시 공간을 제공한다. 지속적인 Multi-AZ 간의 공유를 위해서는 EFS를 사용하는 편이 좋다.
+24	: ALB의 Cross Zone
+ - 활성화된경우: us-west-1에 2개 / us-west-2에 8개  -> 각각 10%씩 트래픽처리
+ - 비활성화된경우: us-west-1에 2개 / us-west-2에 8개  -> 25%/25%/6.25%/6.25%/6.25%/6.25%/6.25%/6.25%/6.25%/6.25%
+25	: !FindInMap 사용법 -> !FindMap [ MapName, TopLevelKey, SecondLevelKey ]
+28	: .ebextensions/ 에 정의되어 Elastic Beanstalk로 배포된 리소스는, 환경이 종료되면 삭제된다.
+30	: IAM Access Analyzer  vs  Access Advisor
+ - IAM Access Analyzer: 의도치 않은 액세스를 식별하는데 도움을 줌.
+ - Access Advisor: 사용되지 않는 역할을 식별하는데 도움을 줌.
+37	: KMS 암호화가 아닌 요청을 거부하려면 ->  { "Effect":"Deny", "StringNotEquals":{ "s3:x-amz-server-side-encryption":"aws:kms"} }
+39	: SQS-ECS 통합시, "backlog per instance metric with target tracking scaling policy" 를 사용해보면 좋다.
+41	: Beanstalk의 Rolling/AddtionalBatchRolling 배포후 실패한 인스턴스를 종료하면, 이전 버전으로 대체한다.
+42	: SAM이 지원하는 리소스
+ - AWS::Serverless::Api
+ - AWS::Serverless::Application
+ - AWS::Serverless::Function
+ - AWS::Serverless::HttpApi
+ - AWS::Serverless::LayerVersion
+ - AWS::Serverless::SimpleTable
+ - AWS::Serverless::StateMachine
+43	: IAM에서 지원하는 유일한 리소스 기반 정책은? -> Trust Policy (신뢰정책)
+45	: API Gateway에 Third Party 인증을 연결하는 방법은 두가지다.
+ - (1) Lambda Authorizer (사용자지정)
+ - (2) Cognito User Pool (AWS가 관리)
+47	: SQS의 특성
+ - (1) Visibility Timeout의 기본값은 30초이다.
+ - (2) Queue 유형은 생성한 후에 바꿀 수 없다.
+ - (3) Standard Queue의 DLQ 역시 Standard 이어야 하며, FIFO Queue의 DLQ 역시 FIFO 여야 한다.
+ - (4) 대기열 태그는 대소문자를 구분한다.
+48	: EC2 User Data 의 특성
+ - (1) 루트 권한으로 실행된다.
+ - (2) 특별한 명시가 없다면, 첫 런칭때만 1회 실행된다. (명시한다면 재부팅할때도 실행가능)
+ - (3) 실행중인 인스턴스의 User Data를 수정할 수 없다.
+49	: 전용인스턴스(Dedicated Instance)와 전용호스트(Dedicated Host)
+ - 전용인스턴스: 단일 고객에게 전용된 하드웨어에서 VPC에서 실행됨. 단일 테넌트 요구사항을 충족 가능함.
+ - 전용호스트: 완전히 고객 맞춤인 인스턴스라고 보면 됨. 가장 비쌈.
+50	: CloudFront Key Pair 는 루트 사용자만 만들 수 있다.
+52	: HTTPS를 위한 SSL/TLS 인증서를 배포할 수 있는 곳은 두가지 뿐이다.
+ - (1) ACM (AWS Certificates Manager)
+ - (2) IAM
+55	: AWS 서비스에 대한 API 호출을 언제?누가? 를 확인하려면 웬만하면 CloudTrail이 정답이다.
+56	: Parameter 섹션안에 Condition을 사용할 수 없다.
+59	: Route53의 리디렉트 종류 및 기능
+ - (1) Alias -> S3, CloudFront 등의 서비스로 전달함. 혹은 Record to Record
+ - (2) A 레코드 -> DNS to IP
+ - (3) PTR 레코드 -> IP to DNS
+ - (4) CNAME -> DNS to DNS
+61	: ASG의 특성
+ - (1) ASG는 Cross-AZ 간 균일하게 배포를 시도한다.
+ - (2) ASG는 Cross-Region 배포가 불가능하다.
+ - (3) VPC에서 시작한 ASG의 경우, EC2는 서브넷에서 시작된다.
+62	: CloudFormation에서 Export로 내보낸 이름은 "Region" 내에서 유니크해야 한다.
+65	: SSE-S3 암호화를 명시한 요청  -> 헤더에 "x-amz-server-side-encryption" : "AES256" 포함
+
+
 
 
 [유데미 2회차]
@@ -258,9 +327,3 @@ TODO
  - B의 ECS 콘솔에서 '저장된 구성' 으로 시작.
 63	: True로 설정된 EBS의 DeleteOnTermination을 False로 변경하려면, CLI를 이용해야 한다.
 
-
-
- 
-
-
-50	: provisioned 동시성 vs reserved 동시성
