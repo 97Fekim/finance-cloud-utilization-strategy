@@ -211,6 +211,56 @@ TODO
 
 
 [유데미 6회차]
+1	: Multi-AZ RDS
+ - DB인스턴스에 업데이트가 발생하면, Standby 인스턴스에 "동기적"으로 복제한다.
+ - OS Update 순서: (1)Standby에서 유지보수 -> (2)유지보수가 끝난 Standby를 Primary로 승격 -> (3)Old Primary가 다시 Standby가 되며, 유지보수 대상이 됨.
+3	: SQS에서 한번에 Polling 가능한 메시지 갯수 = 10개
+7	: ELB + ASG + EC2 Integration에서 unhealthy Instance의 교체를 자동화하려면, ASG의 health check type을 EC2에서 ELB로 변경해야 한다.
+8	: 인스턴스 용량 전략
+ - 예약 인스턴스: 용량 예약을 제공하여, 온디맨드에 비해 가격이 저렴하다. 하지만 온디맨드와 성능은 동일하며, Downtime의 걱정이 없다.
+ - 스팟 인스턴스: 사용되고 있지 않은 인스턴스를 요청하여 사용하는 방식이며, 가격이 매우 저렴하다. 하지만 언제든지 통지없이 Down될 수 있다.
+15	: CodeDeploy Deployment Groups = 서로 다른 배포그룹에 배포할 수 있다. 배포그룹의 대상은 EC2, ASG의 EC2 둘 모두가 될 수 있다.
+19	: Kineis Data Streams의 비용  >>>  Kinesis Firehose의 비용
+21	: (1)버킷구성은 최종일관성 특성을 가짐 = 버킷은 삭제후에도 나타날 수 있음. / (2)객체는 강력일관성 특성을 가짐 = 객체는 삭제후에 절대 나타날 수 없음.
+22	: 캐시미스가 발생했을때, CloudFront-Viewer-Country 헤더값을 기반으로 리디렉션하려면? 
+ - (O) Lambda@Edge를 Origin Request Event와 연관시킨다.
+ - (X) Lambda@Edge를 Viewer Request Event와 연관시킨다. -> 캐시미스가 있을때만이 아니라, 모든 뷰어 요청에 대해 실행하게 됨.
+ - (X) CloudFront Function을 Origin Request Event와 연관시킨다. -> Origin Request Event에 대한 CloudFront Function은 지원하지 않는 기능임.
+ - (X) CloudFront Function을 Viewer Request Event와 연관시킨다. -> 캐시미스가 있을때만이 아니라, 모든 뷰어 요청에 대해 실행하게 됨.
+26	: API Gateway - CloudWatch
+ - (1) Method 수준의 Metrics에 접근할때만만 요금이 청구된다. (API, Staging 단계의 Metrics는 요금청구 X)
+ - (2) 데이터를 로깅할때 STS가 사용됨.
+27	: EBS 볼륨의 암호화
+ - (1) 새로 만드는 EBS의 볼륨은 암호화 가능.
+ - (2) 스냅샷의 암호화 가능
+ - (3) 암호화 되지 않은 기존 EBS 볼륨은 암호화 불가능 (단, 스냅샷을 만든후 스냅샷을 암호화하여 이를 달성가능함.)
+30	: DynamoDB의 Global Tables 를 사용하면, 전세계에 분포된 사용자의 DB 요청을 low-latency로 처리할 수 있다.
+33	: ASG는 Regional 구성요소이다. 그러므로 across AZs 는 가능하지만, across Regions 는 불가능하다.
+35	: (1)수백개의 EC2에서 접근 가능한 파일 스토리지? -> EFS.  (2)비용 효율적이지만, 필요할땐 즉시 접근 가능한 클래스? -> Standard-IA
+36	: 크로스 스택의 참조 방법 = Export + Fn::InportValue (Not Outputs!)
+38	: SQS 메시지의 Default 보관 기간은 ★4일★이며, 원한다면 ★{60초 ~ 14일}★ 로 설정 가능하다.
+40	: ELB의 Public IP는 언제든 변경될 수 있다. DNS는 고정적이므로, 클라이언트에서는 웬만하면 DNS를 사용하자.
+41	: S3의 버전관리가 비활성화 되어 있다면, Event Notification이 누락될 수도 있다.
+42	: ECR에서 Pull하는 방법 = (1)aws ecr get-login -> (2)docker pull 
+43	: 5xx 코드
+ - 500: 내부 서버 오류
+ - 503: 서비스 사용불가 (ALB 대상그룹에 등록된 대상이 없으면 발생)
+ - 504: 게이트웨이 시간 초과 
+ - 403: Forbidden 권한오류
+46	: ECS -> CloudWatch Logs Central 방법 = awslogs driver 활용 및 logConfiguration 정의.
+47	: CloudFront - Cognito User Pools 통합을 직접 통합할 수 없다. 이를 실현하기 위해서는 Lambda@Edge가 필요하다. ALB와 통합하는게 바람직하다.
+60	: Lambda의  Reserved Concurrency  vs  Provision Concurrency
+ - Reserved Concurrency: 일정 동시성을 초과하면 더이상의 동시성 증가가 제한된다.
+ - Provision Concurrency: 시작할때부터 일정한 동시성이 제공된다. 하지만 리미트는 없으므로, 동시성이 폭주해도 제한하지 않는다.
+62	: Cross Account간 ECS 작업 구성 옮기는 방법
+ - A의 로컬머신으로 작업 구성 다운로드.
+ - 계정별 매개변수 구성후, B의 S3에 작업 구성 업로드.
+ - B의 ECS 콘솔에서 '저장된 구성' 으로 시작.
+63	: True로 설정된 EBS의 DeleteOnTermination을 False로 변경하려면, CLI를 이용해야 한다.
+
+
+
+ 
 
 
 50	: provisioned 동시성 vs reserved 동시성
