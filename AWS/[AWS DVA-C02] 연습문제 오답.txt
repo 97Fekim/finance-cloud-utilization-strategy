@@ -14,20 +14,20 @@
 1트: 307, 314, 318, 324(답A임), 327, 334, 335, 338, 340, 342, 344, 345, 347(답C임), 352, 354, 356, 357, 362, 369, 370, 384, 388, 389, 391, 392, 393, 396, 397(답B임), 399, 406, 407, 408, 409, 411, 413, 417(A임), 420, 422, 423, 424, 432(답:C), 433(답:C,D), 435(C), 440, 443, 454, 455, 461
 
 
-[다시볼것]
-
+[다시볼것 1회차]
 3	: SSH Keys - SSH Keys in IAM Console, HTTPS - CLI Credential helper or Git Credentials for IAM
 4	: 잘 모르겠음...
+20	: (1)sam package -> (2)sam deploy
 21	: ASG, ELB, RDS, EC2, S3, SNS
 25	: 스텝이 아니라, 2개 고르기
 34	: execution role은 하나만 assume하는걸 권장함. A는 role이 두개가 되고, B는 기존 execution role이 변경되버림.
 45	: A-따로 설정 안해도 CloudWatch로 로그를 보냄, B-Default로 보내므로 트리거 불필요함, D-B와 동일한 이유임.
-53	: VPC flow logs 관해서 학습 요망
+48	: 샤드수를 늘리면, 더 빨리 데이터를 수집할 수 있음.
 59	: VPC, 서브넷, NAT 게이트웨이 관해서 학습 요망
 67	: before "sent" to S3 이므로 Client Side Encryption이 정답임.
 75	: All at once는 롤백 기능이 없음. 직접 이전버전으로 재배포 해야함.
 100	: A,C 중 하난데, 재시작이 아니라 업데이트 해야 하므로 C가 오답임. 따라서 A가 정답.
-109	: 잘 모르겠음...
+109	: ALB + Cognito 가 맞음.
 114	: SQS에는 "우선순위"라는 기능이 없다.
 172	: Kinesis Streams도 SSE가 가능하다.
 183	: 가장 최근에 성공한 버전으로 새로운 배포ID를 가진 배포를 수행.
@@ -72,6 +72,37 @@
 422	: 4KB 이상 파일에는 generateDataKey API를 사용한다.
 423	: BatchWriteItem은 update를 지원하지 않는다.
 433	: SAM CLI는 build+deploy OR build+(package)+deploy
+
+[다시볼것 2회차]
+8	:
+11	:
+13	:
+36	: Beanstalk에서 지원하는 플랫폼.
+ - (1)Tomcat
+ - (2).Net
+ - (3)Docker
+ - (4)Go
+ - (5)Java
+ - (6)Node
+ - (7)PHP
+ - (8)Python
+ - (9)Ruby
+45	:
+48	:
+55	:
+71	: CloudFormation의 시작만 가능한 역할을 주고 싶다면? -> 템플릿을 Service Catalog 제품으로 만들고, Service Catalog API 만 사용할 수 있는 권한 주기.
+88	: CloudWatch Default Metric Resolution = 1분.  High Resolution = 1/5/10/30(s)
+93	: EC2 Instance의 Termination Protection은 AWS Resource Access Manager을 활용해서 처리하자.
+116	: SNS의 알림 대상을 일괄등록하는 방법 -> CreatePlatformEndpoint
+122	: SecureTransport 를 조건으로 체크하면, S3의 전송중 암호화를 보장할 수 있다.
+125	: No "Access-Controll-Allow-Origin" ~~  이건 API Gateway의 CORS 에러이다. S3의 CORS 에러는 다른 메시지가 뜬다.
+126	: "한 자리 밀리초의 대기 시간 검색을 제공" -> DynamoDB의 특성.
+138	: CloudFormation의 Mapping 활용 -> {region-A:AMI-A, region-B:AMI-B}
+150	: ASM(AWS Secrets Manager)랑 ACM(AWS Certificates Manager)랑 다름!!!
+151	: 파일의 크기 단위(KB, MB) 주의하자... KMS 기본 암호화 가능한 최대 사이즈는 4KB이다.
+160	: Aurora MySQL -> 트랜잭션 블록 기능있음,  DynamoDB -> TransactRead/TransactWrite 기능 있음.
+
+
 
 
 
