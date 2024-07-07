@@ -101,8 +101,15 @@
 150	: ASM(AWS Secrets Manager)랑 ACM(AWS Certificates Manager)랑 다름!!!
 151	: 파일의 크기 단위(KB, MB) 주의하자... KMS 기본 암호화 가능한 최대 사이즈는 4KB이다.
 160	: Aurora MySQL -> 트랜잭션 블록 기능있음,  DynamoDB -> TransactRead/TransactWrite 기능 있음.
-
-
+175	: DynamoDB Scan 작업은 Query 작업보다 훨씬 많은 RCU를 소비한다. 
+187	: EBS Backed Instance  vs  Instance-store Backed Instance
+ - EBS Backed Instance: 중지했다가 다시 시작 가능.
+ - Instance-store Backed Instance: 중지했다가 다시 시작 불가능.
+210	: CodePipeline의 일부로 단위테스트를 넣고싶다면, CodeBuild의 사양을 수정하는게 관례이다.
+228	: ECS Fargate에 환경변수를 전달하려면, Task Definition에 환경변수를 추가한다 (entryPoint 이런거 없음)
+230	: 페이스북/구글/등 로그인은? -> Web Identity federation (IdP) ★SAML 역시 IdP에 포함됨★
+232	: SAM 배포 순서? = (1)package -> (2)deploy
+234	: Lambda Timeout은 디폴트:3초, 최대:15분(더이상 불가능)
 
 
 
