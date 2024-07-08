@@ -110,6 +110,18 @@
 230	: 페이스북/구글/등 로그인은? -> Web Identity federation (IdP) ★SAML 역시 IdP에 포함됨★
 232	: SAM 배포 순서? = (1)package -> (2)deploy
 234	: Lambda Timeout은 디폴트:3초, 최대:15분(더이상 불가능)
+244	: RDS 데이터를 이용해서 로그인을 처리하고자 할때, 빠른 속도를 원한다면? -> (1)비동기적 DB호출 사용, (2)ElastiCache로 캐싱하기.
+247	: dynamoDB의 병렬스캔 기능을 사용하면, provisioned throughputs에 대한 수요가 지나치게 높아진다. 이는 문제의 조건과 상충된다
+258	: ECS를 Multi-Container로 실행하고 싶다면, Task Definition을 정의해야 한다. 최대 10개의 컨테이너를 포함할 수 있다.
+262	: DynamoDB Streams로 Lambda invoke는 동기트리거만 가능.
+266	: API Gateway Cache 기능 Stage별로 ON/OFF가 가능하다. 하지만 캐시는 비싸므로 TEST와 DEV 환경에서는 꺼두는게 좋다. 최대 Cache 사이즈는 237GB이다.
+271	: 여러 계정의 Application들의 데이터를 중앙집중화하고 싶다? -> X-Ray Agent를 각각 설치한후, 중앙계정에 Put하자.
+275	: CodePipeline 단위작업의 상태변경을 트리거로 사용하고 싶다? -> CloudWatch Events (EventBridge)를 사용해야 함. (예를들면 Lambda를 호출하고 싶을때)
+288	: 비동기 메시지 전달 서비스 2가지? -> SQS, SNS
+290	: EBS Volume을 저장할때 보호하는 방법? -> EBS위에 암호화된 파일 시스템을 사용한다.
+
+
+
 
 
 
