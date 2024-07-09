@@ -236,7 +236,7 @@
 7	: Read Replica = Read 워크로드가 많을때 적합,  Multi-AZ = 고가용성에 적합.
 9	: Lambda 환경변수의 크기 제한은 4KB이다. 갯수 제한은 없다.
 10	: Kinesis Data Streams는 Kinesis Data Firehose 보다 Downstream 구축에 더 비용 효율적이다.
-14	: CloudWatch Event는 Lambda 코드의 오류를 식별하고 알릴 수 없다. 따라서 로그는 직접 찍어야 한다.
+14	: CloudWatch Event는 Lambda 코드의 오류를 식별하고 알릴 수 없다. 따라서 오류 로그는 직접 찍어야 한다.
 19	: Kinesis Data Streams는 기본적으로 24시간동안 데이터를 보존한다. 요청한다면, 최대 365일까지 보관 가능하다.
 20	: 
  - 실행중인 EC2 Instance에 모니터링을 활성화 하려면 aws ec2 monitor-instances --instance-ids [ID} 
