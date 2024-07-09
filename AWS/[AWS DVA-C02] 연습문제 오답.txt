@@ -363,6 +363,7 @@
 42	: ECR에서 Pull하는 방법 = (1)aws ecr get-login -> (2)docker pull 
 43	: 5xx 코드
  - 500: 내부 서버 오류
+ - 502: Bad Gateway (프로토콜이 잘못됐을 가능성이 큼)
  - 503: 서비스 사용불가 (ALB 대상그룹에 등록된 대상이 없으면 발생)
  - 504: 게이트웨이 시간 초과 
  - 403: Forbidden 권한오류
