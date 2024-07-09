@@ -11,7 +11,7 @@
 2트: 204, 219, 221, 222, 226, 242, 244, 250, 252, 262, 265, 275, 297
 
 [AWS DVA-C02:  301~469 (지뢰가/너무많다)]
-1트: 307, 314, 318, 324(답A임), 327, 334, 335, 338, 340, 342, 344, 345, 347(답C임), 352, 354, 356, 357, 362, 369, 370, 384, 388, 389, 391, 392, 393, 396, 397(답B임), 399, 406, 407, 408, 409, 411, 413, 417(A임), 420, 422, 423, 424, 432(답:C), 433(답:C,D), 435(C), 440, 443, 454, 455, 461
+1트: 307, 314, 318, 319(답C임), 324(답A임), 327, 334, 335, 338, 340, 342, 344, 345, 347(답C임), 352, 354, 356, 357, 362, 369, 370, 384, 388, 389, 391, 392, 393, 396, 397(답B임), 399, 406, 407, 408, 409, 411, 413, 417(A임), 420, 422, 423, 424, 432(답:C), 433(답:C,D), 435(C), 440, 443, 454, 455, 461
 
 
 [다시볼것 1회차]
@@ -119,9 +119,39 @@
 275	: CodePipeline 단위작업의 상태변경을 트리거로 사용하고 싶다? -> CloudWatch Events (EventBridge)를 사용해야 함. (예를들면 Lambda를 호출하고 싶을때)
 288	: 비동기 메시지 전달 서비스 2가지? -> SQS, SNS
 290	: EBS Volume을 저장할때 보호하는 방법? -> EBS위에 암호화된 파일 시스템을 사용한다.
+301	: AWS CLI를 이용해서 Lambda를 SAM로 배포하고 싶다면, 가장 먼저 asm package 명령어로 S3에 소스를 올려야 한다.
+302	: Lambda와 통합된 API Gateway 에서 502-BadGateway 가 발생한다면, 요청/응답 형식이 올바르지 않을 가능성이 높다.
+303	: "ingest data" 가 키워드이므로, Firehose가 정답인가보다.
+304	: "인메모리" 저장소를 골라야 하니깐, ElastiCache가 답인가보다.
+307	: EC2가 갖는 IAM Role -> Instance Profile Credentials (가장 적합한 권한부여 형태임)
+309	: Swagger를 이용하여 Restful API를 배포하는 두가지 방법
+ - 인라인 Swagger 정의를 사용하여 SAM 탬플릿을 배포.
+ - Swagger 파일을 정의하고, Swagger 파일을 참조하는 SAM 템플릿을 배포.
+312	: S3 -> SQS -> Lambda  이미지 처리할때 적합한 아키텍처이다.
+317	: LSI(Local Secondary Index)  vs  GSI(Global Secondary Index)
+ - LIS: 기존에 존재하는 파티션키 + 추가적인 정렬키로  구성
+ - GSI: 기존에 존재하는 파티션키 + 새로운 파티션키 + 추가적인 정렬키로  구성
+318	: 각 Sender마다 메시지가 정렬되어야 하므로, MessageGroupId를 Sender에게 구성하는게 맞다.
+319	: S3 EventNotification이 Lambda를 invoke할때, Lambda의 Alias를 지정 가능함.
+325	: IAM 사용자가 AWS Service에 Role을 부여하려면, IAM 사용자에게 iam:PassRole 권한이 부여되어야 한다.
+326	: "특정 AWS 계정" 에게 API 사용을 제한하고 싶은 케이스이므로, 리소스 정책이 옳다. (Usage Plan은 일반사용자에게 적합)
+327	: DynamoDB 만을 유저데이터로 이용해서 인증처리를 하고 싶다면, Lambda Authorizer를 직접 만들어야 함.
+331	: 서버리스 템플릿의 배포 방법 두가지
+ - aws cloudformation package + aws cloudformation deploy
+ - sam pachage + sam deploy
+335	: SNS의 페이로드 명세 -> (1)MessageId, (2)undubscribeURL, (3)Subject, (4)Message, (5)Other values
+336	: Long Polling을 위해 변경해야하는 파라미터 -> ReceiveMessageWaitTimeSeconds
+342	: Non-Peak Time에 DynamoDB 스캔작업을 잘 활용하는 방법 -> Rate-Limited Pararell Scan
+344	: Beanstalk에서 로드밸런서의 유형을 교체하는 방법
+ - (1) 기존 배포에서 애플리케이션 코드를 업데이트
+ - (2) 로드밸런서의 유형을 제외한 동일한 환경을 배포
+ - (3) swap-environment-cnames 작업 실행
+355	: Kinesis Data Stream의 Ordering 특성
+ - 샤드내의 데이터의 순서는 보장된다.
+ - 샤드간의 순서는 보장되지 않는다.
+356	: 로컬에서 잘되지만, Lambda에서는 Unable to import module이 뜬다면? -> LB_LIBRARY_PATH 환경 생성 + 경로 명시 ㄱ
 
-
-
+ 
 
 
 
@@ -363,7 +393,7 @@
 42	: ECR에서 Pull하는 방법 = (1)aws ecr get-login -> (2)docker pull 
 43	: 5xx 코드
  - 500: 내부 서버 오류
- - 502: Bad Gateway (통신장애 - 서버 과부하, 네트워크장애 등이 원인)
+ - 502: Bad Gateway (통신장애 - 서버 과부하, 네트워크장애 등이 원인. Request/Response 형식이 안맞을 가능성 높음)
  - 503: 서비스 사용불가 (ALB 대상그룹에 등록된 대상이 없으면 발생)
  - 504: 게이트웨이 시간 초과 
  - 403: Forbidden 권한오류
