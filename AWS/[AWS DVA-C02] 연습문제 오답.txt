@@ -74,7 +74,7 @@
 433	: SAM CLI는 build+deploy OR build+(package)+deploy
 
 [다시볼것 2회차]
-8	:
+8	: DynamoDB는 (1)Optimistic Concurrency Model, (2)Conditional Writes for Consistency 를 사용한다.
 11	:
 13	:
 36	: Beanstalk에서 지원하는 플랫폼.
