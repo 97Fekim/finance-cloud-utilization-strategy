@@ -76,7 +76,7 @@
 [다시볼것 2회차]
 8	: DynamoDB는 (1)Optimistic Concurrency Model, (2)Conditional Writes for Consistency 를 사용한다.
 11	: CloudWatdh 메트릭의 그래프표현을 원한다면, Custom Namespace를 만들어야 한다.
-13	:
+13	: 각각의 ECS 서비스에 대한 역할을 설정하는 방법은 "ECS Tack Definition"에 역할 지정이다.
 36	: Beanstalk에서 지원하는 플랫폼.
  - (1)Tomcat
  - (2).Net
@@ -87,12 +87,10 @@
  - (7)PHP
  - (8)Python
  - (9)Ruby
-45	:
+45	: Lambda는 기본적으로 CloudWatch에 로그를 보낸다.(로그문을 작성하지 않았더라도)
 48	:
-55	:
 71	: CloudFormation의 시작만 가능한 역할을 주고 싶다면? -> 템플릿을 Service Catalog 제품으로 만들고, Service Catalog API 만 사용할 수 있는 권한 주기.
 88	: CloudWatch Default Metric Resolution = 1분.  High Resolution = 1/5/10/30(s)
-93	: EC2 Instance의 Termination Protection은 AWS Resource Access Manager을 활용해서 처리하자.
 116	: SNS의 알림 대상을 일괄등록하는 방법 -> CreatePlatformEndpoint
 122	: SecureTransport 를 조건으로 체크하면, S3의 전송중 암호화를 보장할 수 있다.
 125	: No "Access-Controll-Allow-Origin" ~~  이건 API Gateway의 CORS 에러이다. S3의 CORS 에러는 다른 메시지가 뜬다.
@@ -108,7 +106,7 @@
 210	: CodePipeline의 일부로 단위테스트를 넣고싶다면, CodeBuild의 사양을 수정하는게 관례이다.
 228	: ECS Fargate에 환경변수를 전달하려면, Task Definition에 환경변수를 추가한다 (entryPoint 이런거 없음)
 230	: 페이스북/구글/등 로그인은? -> Web Identity federation (IdP) ★SAML 역시 IdP에 포함됨★
-232	: SAM 배포 순서? = (1)package -> (2)deploy
+232	: SAM 배포 순서? = (1)build -> (2)package to S3(optional) -> (3)deploy
 234	: Lambda Timeout은 디폴트:3초, 최대:15분(더이상 불가능)
 244	: RDS 데이터를 이용해서 로그인을 처리하고자 할때, 빠른 속도를 원한다면? -> (1)비동기적 DB호출 사용, (2)ElastiCache로 캐싱하기.
 247	: dynamoDB의 병렬스캔 기능을 사용하면, provisioned throughputs에 대한 수요가 지나치게 높아진다. 이는 문제의 조건과 상충된다
@@ -120,7 +118,7 @@
 288	: 비동기 메시지 전달 서비스 2가지? -> SQS, SNS
 290	: EBS Volume을 저장할때 보호하는 방법? -> EBS위에 암호화된 파일 시스템을 사용한다.
 301	: AWS CLI를 이용해서 Lambda를 SAM로 배포하고 싶다면, 가장 먼저 asm package 명령어로 S3에 소스를 올려야 한다.
-302	: Lambda와 통합된 API Gateway 에서 502-BadGateway 가 발생한다면, 요청/응답 형식이 올바르지 않을 가능성이 높다.
+302	: Lambda와 통합된 API Gateway 에서 502-BadGateway 가 발생한다면, Lambda의 요청/응답 형식이 올바르지 않을 가능성이 높다.
 303	: "ingest data" 가 키워드이므로, Firehose가 정답인가보다.
 304	: "인메모리" 저장소를 골라야 하니깐, ElastiCache가 답인가보다.
 307	: EC2가 갖는 IAM Role -> Instance Profile Credentials (가장 적합한 권한부여 형태임)
@@ -164,6 +162,21 @@
 462 : 여러개의 EC2 인스턴스에 Unified CloudWatch Agent를 설치하면, 하나의 CloudWatch Logs에 로그를 통합하여 관리할 수 있다.
 463 : EC2 인스턴스에서 실행되는 애플리케이션이 교차계정 서비스에 접근하기 위해서는, AssumeRole API를 코드내에 포함시켜서 자격증명을 얻어야 한다.
 466 : SQS Polling Function의 Timeout이 SQS의 Visibility Timeout보다 크면, 중복처리가 발생할수도 있다. Why? -> Function Timeout = 20초, Visibility Timeout = 10초 라고 가정하면 Function이 작업을 마무리하는데 15초가 걸리는 케이스에서 중복처리가 발생함. 왜냐하면 10초가 지난시점에서 Queue에 메시지가 다시 나타나고, 다른 Function이 Polling할 수 있기 때문.
+
+[다시볼것 3회차]
+8	: DynamoDB는 (1)Optimistic Concurrency Model, (2)Conditional Writes for Consistency 를 사용한다.
+11	: CloudWatdh 메트릭의 그래프표현을 원한다면, Custom Namespace를 만들어야 한다.
+13	: 각각의 ECS 서비스에 대한 역할을 설정하는 방법은 "ECS Tack Definition"에 역할 지정이다.
+45	: Lambda는 기본적으로 CloudWatch에 로그를 보낸다.(로그문을 작성하지 않았더라도)
+232	: SAM 배포 순서? = (1)build -> (2)package to S3(optional) -> (3)deploy
+247	: dynamoDB의 병렬스캔 기능을 사용하면, provisioned throughputs에 대한 수요가 지나치게 높아진다. 이는 문제의 조건과 상충된다
+262	: DynamoDB Streams로 Lambda invoke는 동기트리거만 가능.
+275	: CodePipeline 단위작업의 상태변경을 트리거로 사용하고 싶다? -> CloudWatch Events (EventBridge)를 사용해야 함. (예를들면 Lambda를 호출하고 싶을때)
+288	: 비동기 메시지 전달 서비스 2가지? -> SQS, SNS
+290	: EBS Volume을 저장할때 보호하는 방법? -> EBS위에 암호화된 파일 시스템을 사용한다.
+302	: Lambda와 통합된 API Gateway 에서 502-BadGateway 가 발생한다면, Lambda의 요청/응답 형식이 올바르지 않을 가능성이 높다.
+304	: "인메모리" 저장소를 골라야 하니깐, ElastiCache가 답인가보다. 뿐만 아니라, ElastiCache 역시 Auto Scaling을 지원한다.
+
 
 
 
