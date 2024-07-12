@@ -163,6 +163,7 @@
 461 : Session Policy는 임시 권한이라고 보면 된다.
 462 : 여러개의 EC2 인스턴스에 Unified CloudWatch Agent를 설치하면, 하나의 CloudWatch Logs에 로그를 통합하여 관리할 수 있다.
 463 : EC2 인스턴스에서 실행되는 애플리케이션이 교차계정 서비스에 접근하기 위해서는, AssumeRole API를 코드내에 포함시켜서 자격증명을 얻어야 한다.
+466 : SQS Polling Function의 Timeout이 SQS의 Visibility Timeout보다 크면, 중복처리가 발생할수도 있다. Why? -> Function Timeout = 20초, Visibility Timeout = 10초 라고 가정하면 Function이 작업을 마무리하는데 15초가 걸리는 케이스에서 중복처리가 발생함. 왜냐하면 10초가 지난시점에서 Queue에 메시지가 다시 나타나고, 다른 Function이 Polling할 수 있기 때문.
 
 
 
