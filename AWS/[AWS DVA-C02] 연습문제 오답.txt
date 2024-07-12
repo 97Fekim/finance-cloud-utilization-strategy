@@ -162,6 +162,7 @@
 452	: CloudFormation 템플릿의 리소스를 수정해서 배포하면, 이전 리소스는 삭제된다.
 461 : Session Policy는 임시 권한이라고 보면 된다.
 462 : 여러개의 EC2 인스턴스에 Unified CloudWatch Agent를 설치하면, 하나의 CloudWatch Logs에 로그를 통합하여 관리할 수 있다.
+463 : EC2 인스턴스에서 실행되는 애플리케이션이 교차계정 서비스에 접근하기 위해서는, AssumeRole API를 코드내에 포함시켜서 자격증명을 얻어야 한다.
 
 
 
