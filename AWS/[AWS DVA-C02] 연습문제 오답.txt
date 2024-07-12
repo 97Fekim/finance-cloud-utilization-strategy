@@ -149,7 +149,7 @@
  - 샤드간의 순서는 보장되지 않는다.
 356	: 로컬에서 잘되지만, Lambda에서는 Unable to import module이 뜬다면? -> LB_LIBRARY_PATH 환경 생성 + 경로 명시 ㄱ
 370	: 한번에 여러개의 메시지를 SQS에서 수신하고 싶다면, ReceiveMessage API를 호출할때 MaxNumberOfMessages 를 증가시켜야 함.
-378	: 로컬 애플리케이션에서 AWS 서비스에 접근하기 위해서는 IAM Role(X) , IAM User Secrets Key(O)
+381	: 로컬 애플리케이션에서 AWS 서비스에 접근하기 위해서는 IAM Role(X) , IAM User Secrets Key(O)
 384	: 최대 S3 버킷 갯수 = 계정당 100개.
 388	: Lambda의 매개변수중 context에는 Invocation에 관련된 정보가 담겨있다.
 405	: ELB의 URL을 가져오려면? -> {"Fn:GetAtr" : ["ElasticLoadBalancer"."DNSName"]}
@@ -176,6 +176,16 @@
 290	: EBS Volume을 저장할때 보호하는 방법? -> EBS위에 암호화된 파일 시스템을 사용한다.
 302	: Lambda와 통합된 API Gateway 에서 502-BadGateway 가 발생한다면, Lambda의 요청/응답 형식이 올바르지 않을 가능성이 높다.
 304	: "인메모리" 저장소를 골라야 하니깐, ElastiCache가 답인가보다. 뿐만 아니라, ElastiCache 역시 Auto Scaling을 지원한다.
+307	: EC2가 갖는 IAM Role -> Instance Profile Credentials (가장 적합한 권한부여 형태임)
+312	: S3 -> SQS -> Lambda  이미지 처리할때 적합한 아키텍처이다.
+342	: Non-Peak Time에 DynamoDB 스캔작업을 잘 활용하는 방법 -> Rate-Limited Pararell Scan
+344	: Beanstalk에서 로드밸런서의 유형을 교체하는 방법
+ - (1) 기존 배포에서 애플리케이션 코드를 업데이트
+ - (2) 로드밸런서의 유형을 제외한 동일한 환경을 배포
+ - (3) swap-environment-cnames 작업 실행
+370	: 한번에 여러개의 메시지를 SQS에서 수신하고 싶다면, ReceiveMessage API를 호출할때 MaxNumberOfMessages 를 증가시켜야 함.
+381	: 로컬 애플리케이션에서 AWS 서비스에 접근하기 위해서는 IAM Role(X) , IAM User Secrets Key(O)
+
 
 
 
