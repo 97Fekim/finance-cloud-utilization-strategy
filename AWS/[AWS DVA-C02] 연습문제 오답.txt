@@ -198,6 +198,15 @@
 [유데미 1회차]
 1	: CodeBuild TimeOut를 설정할 수 있다. Default는 8시간이며, 원한다면 5분 ~ 8시간 내의 시간을 설정 가능하다.
 7	: (1)DeleteQueue = 큐 및 메시지 모두 삭제 / (2)PurgeQueue = 메시지만 삭제
+12	: CloudFormation의 구성요소로 가능한 항목
+ - Description
+ - Metadata
+ - Parameters
+ - Mappings
+ - Conditions
+ - Transform
+ - Resourses
+ - Outputs
 14	: IAM for CodeCommit에서 지원/비지원 하는 것
  - (O) Git Credentials
  - (O) AWS Access Keys
@@ -216,14 +225,15 @@
  - 활성화된경우: us-west-1에 2개 / us-west-2에 8개  -> 각각 10%씩 트래픽처리
  - 비활성화된경우: us-west-1에 2개 / us-west-2에 8개  -> 25%/25%/6.25%/6.25%/6.25%/6.25%/6.25%/6.25%/6.25%/6.25%
 25	: !FindInMap 사용법 -> !FindMap [ MapName, TopLevelKey, SecondLevelKey ]
+27	: SSM Parameter Store에 저장된 Key-Value는 Auto Rotation 작업이 불가능하다. 따라서 Auto Rotation을 원하는 Credential은 ASM에서 관리하는 편이 좋다.
 28	: .ebextensions/ 에 정의되어 Elastic Beanstalk로 배포된 리소스는, 환경이 종료되면 삭제된다.
-30	: IAM Access Analyzer  vs  Access Advisor
+32	: IAM Access Analyzer  vs  Access Advisor
  - IAM Access Analyzer: 의도치 않은 액세스를 식별하는데 도움을 줌.
  - Access Advisor: 사용되지 않는 역할을 식별하는데 도움을 줌.
 37	: KMS 암호화가 아닌 요청을 거부하려면 ->  { "Effect":"Deny", "StringNotEquals":{ "s3:x-amz-server-side-encryption":"aws:kms"} }
 39	: SQS-ECS 통합시, "backlog per instance metric with target tracking scaling policy" 를 사용해보면 좋다.
 41	: Beanstalk의 Rolling/AddtionalBatchRolling 배포후 실패한 인스턴스를 종료하면, 이전 버전으로 대체한다.
-42	: SAM이 지원하는 리소스
+42	: SAM이 지원하는 리소스. Conditions를 Parameter 탭 내에 포함시킬 수 없다.
  - AWS::Serverless::Api
  - AWS::Serverless::Application
  - AWS::Serverless::Function
@@ -232,9 +242,9 @@
  - AWS::Serverless::SimpleTable
  - AWS::Serverless::StateMachine
 43	: IAM에서 지원하는 유일한 리소스 기반 정책은? -> Trust Policy (신뢰정책)
-45	: API Gateway에 Third Party 인증을 연결하는 방법은 두가지다.
- - (1) Lambda Authorizer (사용자지정)
- - (2) Cognito User Pool (AWS가 관리)
+44	: SSL/TLS 인증서를 배포하는 방법 두가지
+ - (1) IAM
+ - (2) ACM (AWS Certificates Manager)
 47	: SQS의 특성
  - (1) Visibility Timeout의 기본값은 30초이다.
  - (2) Queue 유형은 생성한 후에 바꿀 수 없다.
@@ -281,7 +291,7 @@
 19	: ASG는 unhealthy한 인스턴스를 종료하고, 원하는 용량이 될때까지 새로운 인스턴스를 시작한다.
 21	: NACL은 stateless하므로, Inbound/Outbound 모두 규칙을 설정해줘야 원활히 송수신 가능하다.
 22	: 자격증명을 객체스토리지이나 파일시스템에 저장하는 답안은 피하자.
-23	: DynamoDB -> S3  = EMR(O), Glue(O), Data Pipeline(O), DynamoDB 온디맨드 백업(X)
+23	: DynamoDB -> S3  = EMR(O), Glue(O), Data Pipeline(O), DynamoDB 온디맨드 백업(X)  (온디맨드 백업방식은 S3로의 저장을 지원하지 않는다.)
 34  : VPC 엔드포인트를 활용하여 AWS 서비스의 엔드포인트를 private하게 관리할 수 있다.
 35  : 서브넷은 하나의 라우팅 테이블에만 연결할 수 있다. 서브넷은 특정 라우팅 테이블과 명시적으로 연결되지 않은 경우, 기본 라우팅 테이블과 암시적으로 연결된다.
 36  : API Gateway 새 버전을 만들면 새로 배포해야 한다. staging variable 만으로 관리할 수 없다.
@@ -292,11 +302,25 @@
 51	: CloudFormation의 파라미터는 모두 독립적이며 서로 종속될 수 없다. 가능한거=Stirng,Number,List,CommaDelimitedList, EC2::A::B
 54	: CodeDeploy 절차 = 1)ApplicationStop -> 2)DownloadBundle -> 3)BeforeInstall -> 4)Install -> 5)AfterInstall -> 6)ApplicationStart -> 7)ValidateService 8)~~~Traffic
 55	: Lambda는 1,000 동시성까지는 Auto Scale Out 하지만, 그 이상으로 늘리려면 예약 동시성을 갖는 Auto Scaling을 구성해야 한다.
-58	: 100IOP(33.33GiB) < gp2 IOPS < 16,000IOPS(5.3TiB)   #gp2는 곱하기30임
+58	: 100IOP(33.33GiB) < gp2 IOPS < 16,000IOPS(5.3TiB)   #gp2는 곱하기3임
 60	: private key는 URL을 서명할때, public key는 CloudFront에서 서명확인.  루트유저로 2개의 key pair를 가질 수 있고, 키 그룹을 활용하면 4개의 그룹, 그룹당 5개의 공개키를 가질 수 있음.
-61	: State Machine의 Task 정의에 Resource는 필수이다. Resource가 없다면 Task가 아니라 Pass타입이다.
 62	: 4KB가 넘는 파일은 KMS로 직접 암/복호화 불가능함. 봉투 암호화 사용해야 함.
 63	: 표준 메트릭인지, 커스텀 메트릭인지 항상 주의해야 함.
+66	: Cognito User Pools Authorizer 라는 권한부여자도 있으니 유의하자. (Identity Pools만 있는게 아님)
+(★)61	: State Machine의 Task 정의에 Resource는 필수이다. Resource가 없다면 Task가 아니라 Pass타입이다.
+(★)64	: EC2 인스턴스가 인터넷 게이트웨이를 사용하여 퍼블릭 인터넷에 연결하려면?
+ - 인스턴스 서브넷의 Route Table에 인터넷 게이트웨이의 경로가 있어야 한다.
+ - 서브넷과 연결된 네트워크 ACL에는 인바운드/아웃바운드 트래픽을 허용하는 규칙이 있어야 한다.
+(★)65	: CloudWatch의 표준 모니터링 주기 = 5분, Detailed 모니터링 주기 = 1분
+(★)67	: Lambda 함수를 컨테이너화하여 ECS로 배포할때 유의사항
+ - 컨테이너 이미지를 Lambda에 배포하려면 컨테이너 이미지가 Lambda Runtime API를 구현해야 한다.
+ - Lambda는 다중 아키텍처 컨테이너 이미지를 사용하는 Lambda 함수를 지원하지 않음.
+ - Lambda는 현재 Linux 기반 컨테이너 이미지만 지원한다.
+ - Lambda 컨테이너를 로컬에서 테스트하려면, Lambda Runtime Interface Emulator를 사용해야 한다.
+ - Lambda 함수는 최대 10GB의 크기의 컨테이너 이미지로 배포할 수 있다.
+(★)68	: DynamoDB의 ConsistentRead=true/false 속성은 읽기 작업에만 사용 가능하다.
+
+ 
 
 
 [유데미 3회차]
