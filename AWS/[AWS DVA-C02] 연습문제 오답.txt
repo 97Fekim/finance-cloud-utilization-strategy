@@ -431,7 +431,7 @@
 9	: S3의 페이징은 DynamoDB와 다르다. S3 CLI 명령어에 3가지 옵션을 줄 수 있다. 1)--max-items, 2)--starting-token, 3)--page-size  여기서 3)은 옵션이다.
 11	: ★주의★ package.jon, requirement.txt 요런 의존성주입은 "Beanstalk"의 패키지 방법이다. Lambda에 의존성주입을 위해서는 반드시 동일한 폴더에 의존성을 넣고 일괄압축해야 한다.
 14	: Cache Lazy Loading이란? cache에 데이터가 없거나 TTL로 인해 만료되었을 경우에만 Cache에 값을 쓴다.
-17	: EC2의 인스턴스ID, 보안그룹 등을 조회 하고 싶으면 어디다 물어봐? -> IP/latest/meta-data !!   그럼 IP/latest/user-data는 어따써? -> 인스턴스를 시작할때 사용한 유저 정보 조회할때.
+17	: EC2의 인스턴스ID, 보안그룹 등을 조회 하고 싶으면 어디다 물어봐? -> IP/latest/meta-data !!   그럼 IP/latest/user-data는 어따써? -> 인스턴스를 시작할때 사용한 유저 데이터 조회할때.
 19	: X-Ray는 트레이스당 최대 50개의 Annotations을 인덱싱할 수 있다.
 21	: 로드밸런서에 SSL 인증서를 할당하면, 로드밸런서는 HTTPS 엔드포인트를 노출할 수 있다.
 22	: CLI로 ECS 띄우는법 -> aws ecs create-service --service-name ecs-simple-service --task-definition ecs-demo --desired-count 10
@@ -440,7 +440,7 @@
 27	: CloudWatch는 cron 이벤트를 발생시킬 수 있다.
 30	: RDS도 오토스케일링이 가능하다! Aurora만 있는거 아니다.
 32	: STS는 임시인증토큰 서비스이다. 만료기간은 Default로 1시간이며, 15분~1시간 내로 설정 가능하다.
-33	: X-Ray 데몬 컨테이너를 띄우는 방법: 1)Fargate에서는 sidecar 컨테이너를 띄워야함. 왜냐하면 기존 컨테이너는 컨트롤이 불가능함. 2)ECS 클래식에서는 기본 EC2에 띄우면 됨.
+33	: X-Ray 데몬 컨테이너를 띄우는 방법: 1)Fargate에서는 sidecar 컨테이너를 띄워야함. 왜냐하면 기존 컨테이너는 컨트롤이 불가능함. 2)ECS EC2 Launch 타입에서는 기본 EC2에 띄우면 됨.
 38	: KMS의 데이터키를 캐싱할수도 있다.(SDK를 사용하면 가능, 하지만 주의해서 써야 함)
 42	: S3와 DynamoDB가 지원하는 인터페이스 ★웬만하면 게이트웨이 엔드포인트 쓰자★
  - S3		: 게이트웨이엔드포인트(O), 인퍼테이스엔드포인트(O), API엔드포인트(이런거없음)
@@ -453,6 +453,9 @@
 57	: Beanstalk 환경에서, 오래걸리는 작업을 하는 인스턴스를 Dedicated Worker Environment로 설정하면 좋다.
 59	: CodeStar는 개발~배포 기능뿐 아니라, 통합UI까지 제공함.
 64	: Lambda의 성능향상 기법으로, Provisioned Concurrency가 유용하다. 할당된 동시성을 이용하여 초기화 코드에 걸리는 시간을 단축시킬 수 있다.
+
+
+
 
 
 [유데미 6회차]
@@ -482,7 +485,7 @@
 30	: DynamoDB의 Global Tables 를 사용하면, 전세계에 분포된 사용자의 DB 요청을 low-latency로 처리할 수 있다.
 33	: ASG는 Regional 구성요소이다. 그러므로 across AZs 는 가능하지만, across Regions 는 불가능하다.
 35	: (1)수백개의 EC2에서 접근 가능한 파일 스토리지? -> EFS.  (2)비용 효율적이지만, 필요할땐 즉시 접근 가능한 클래스? -> Standard-IA
-36	: 크로스 스택의 참조 방법 = Output섹션에 Export정의 + Fn::InportValue (Not Outputs!)
+36	: 크로스 스택의 참조 방법 = Outputs섹션에 Export정의 + Fn::InportValue로 사용
 38	: SQS 메시지의 Default 보관 기간은 ★4일★이며, 원한다면 ★{60초 ~ 14일}★ 로 설정 가능하다.
 40	: ELB의 Public IP는 언제든 변경될 수 있다. DNS는 고정적이므로, 클라이언트에서는 웬만하면 DNS를 사용하자.
 41	: S3의 버전관리가 비활성화 되어 있다면, Event Notification이 누락될 수도 있다.
