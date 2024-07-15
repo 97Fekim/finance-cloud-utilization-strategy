@@ -428,7 +428,6 @@
 6	: Macie란? 민감한 정보를 검색하고 가시성을 제공하며, 검토 및 수정의 기회를 제공함. SensitiveData:S3Object/Financial = 금융정보타입, ~/CustomIdentifier = 고객식별자타입, ~/Personal
 7	: ★주의★ Rolling/AddtionalBatchRolling 에서 중요한거 => Batch Size는 새로운 배포를 진행할 인스턴스의 사이즈를 뜻한다. 남기는 인스턴스가 아니다.
 8	: Cognito User Pools의 이벤트 종류에는 Pre-Authentication, Post-Authentication 둘 모두 존재한다. 하지만 인증 후 처리를 원하면 post가 정답.
-9	: S3의 페이징은 DynamoDB와 다르다. S3 CLI 명령어에 3가지 옵션을 줄 수 있다. 1)--max-items, 2)--starting-token, 3)--page-size  여기서 3)은 옵션이다.
 11	: ★주의★ package.jon, requirement.txt 요런 의존성주입은 "Beanstalk"의 패키지 방법이다. Lambda에 의존성주입을 위해서는 반드시 동일한 폴더에 의존성을 넣고 일괄압축해야 한다.
 14	: Cache Lazy Loading이란? cache에 데이터가 없거나 TTL로 인해 만료되었을 경우에만 Cache에 값을 쓴다.
 17	: EC2의 인스턴스ID, 보안그룹 등을 조회 하고 싶으면 어디다 물어봐? -> IP/latest/meta-data !!   그럼 IP/latest/user-data는 어따써? -> 인스턴스를 시작할때 사용한 유저 데이터 조회할때.
@@ -446,13 +445,18 @@
  - S3		: 게이트웨이엔드포인트(O), 인퍼테이스엔드포인트(O), API엔드포인트(이런거없음)
  - DynamoDB	: 게이트웨이엔드포인트(O), 인퍼테이스엔드포인트(X), API엔드포인트(이런거없음)
 48	: Beanstalk의 .ebextention은 버전관리에 도움을 주지 못한다. 버전 관리는 "수명주기"로 할 수 있다.
-50	: CloudFormation 템플릿으로 람다를 띄우려면, S3/직접작성 두가지 방법밖에 없다. 단, 직접작성하는 경우 외부라이브러리는 사용할 수 없다.
 53	: ★또틀림★ API Gateway 에서의 인증 - 유저풀(O), 람다Authorizer(O), Standard IAM role and policy(O), STS(X)
 55	: S3의 multi-part 업로드는 100MB 이상 파일부터 권장하며, 5GB이상 파일엔 필수다. S3 Transfer Acceleration을 활용하면 빠르게 업로드 가능하다.
 56	: CodePipeline은 Lambda를 직접 invoke할 수 없다.
-57	: Beanstalk 환경에서, 오래걸리는 작업을 하는 인스턴스를 Dedicated Worker Environment로 설정하면 좋다.
-59	: CodeStar는 개발~배포 기능뿐 아니라, 통합UI까지 제공함.
 64	: Lambda의 성능향상 기법으로, Provisioned Concurrency가 유용하다. 할당된 동시성을 이용하여 초기화 코드에 걸리는 시간을 단축시킬 수 있다.
+(★)50	: CloudFormation 템플릿으로 람다를 띄우려면, S3/직접작성 두가지 방법밖에 없다. 단, 직접작성하는 경우 외부라이브러리는 사용할 수 없다.
+(★)57	: Beanstalk 환경에서, 오래걸리는 작업을 하는 인스턴스를 Dedicated Worker Environment로 설정하면 좋다. 뿐만 아니라, cron.yaml 파일을 수정하여 배치를 구성 가능.
+(★)58 : API Gateway의 배포전략으로 Canary Deployment 가 존재한다.
+(★)59	: CodeStar는 개발~배포 기능뿐 아니라, 통합UI까지 제공함.
+(★)9	: S3의 페이징은 DynamoDB와 다르다. S3 CLI 명령어에 3가지 옵션을 줄 수 있다. 1)--max-items(필수), 2)--starting-token(필수), 3)--page-size(선택)
+(★)10 : 중앙 계정에서 하위 계정들의 EC2 X-Ray 트레이스를 모으는 방법
+ - 중앙 계정에 접근할 수 있는 IAM 역할을 만들고, 하위 계정에게 허용한다.
+ - 하위 계정에서 EC2에 IAM 역할을 부여한다.
 
 
 
