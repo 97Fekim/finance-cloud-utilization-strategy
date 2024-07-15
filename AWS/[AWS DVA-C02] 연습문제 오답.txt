@@ -472,7 +472,6 @@
  - 예약 인스턴스: 용량 예약을 제공하여, 온디맨드에 비해 가격이 저렴하다. 하지만 온디맨드와 성능은 동일하며, Downtime의 걱정이 없다.
  - 스팟 인스턴스: 사용되고 있지 않은 인스턴스를 요청하여 사용하는 방식이며, 가격이 매우 저렴하다. 하지만 언제든지 통지없이 Down될 수 있다.
 15	: CodeDeploy Deployment Groups = 서로 다른 배포그룹에 배포할 수 있다. 배포그룹의 대상은 EC2, ASG의 EC2 둘 모두가 될 수 있다.
-19	: Kineis Data Streams의 비용  >>>  Kinesis Firehose의 비용
 21	: (1)버킷구성은 최종일관성 특성을 가짐 = 버킷은 삭제후에도 나타날 수 있음. / (2)객체는 강력일관성 특성을 가짐 = 객체는 삭제후에 절대 나타날 수 없음.
 22	: 캐시미스가 발생했을때, CloudFront-Viewer-Country 헤더값을 기반으로 리디렉션하려면? 
  - (O) Lambda@Edge를 Origin Request Event와 연관시킨다.
@@ -511,4 +510,13 @@
  - 계정별 매개변수 구성후, B의 S3에 작업 구성 업로드.
  - B의 ECS 콘솔에서 '저장된 구성' 으로 시작.
 63	: True로 설정된 EBS의 DeleteOnTermination을 False로 변경하려면, CLI를 이용해야 한다.
+(★)19	: Kineis Data Streams의 비용  >>>  Kinesis Firehose의 비용. 하지만 스트리밍 데이터를 서비스에 로드하는 작업만 한다고 치면, Firehose가 비용 효율적이다.
+(★)20 : Kinesis Data Streams를 암호화할때, HTTPS를 사용하면 코드의 변경없이 암호화 대응이 가능하다.
+(★)21 : CloudWatch에 로그를 보내는 역할을 부여하려면, 아래 인라인 정책을 모두 추가해야 함.
+ - "logs:CreateLogGroup",
+ - "logs:CreateLogStream",
+ - "logs:PutLogEvents",
+ - "logs:DescribeLogStreams"
+(★)22 : ASG는 ALB, NLB 둘 모두와 사용 가능하다.
+
 
