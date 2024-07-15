@@ -1,0 +1,373 @@
+
+[다시볼것 1회차]
+3	: SSH Keys - SSH Keys in IAM Console, HTTPS - CLI Credential helper or Git Credentials for IAM
+48	: 샤드수를 늘리면, 더 빨리 데이터를 수집할 수 있음.
+208	: BeanStalk의 버전 제한을 0으로 두면, 이전 버전을 삭제하지 않고 유지한다.
+219	: DynamoDB 관련하여 AWS문의를 통해 limit를 증가할 수 있는항목은 1)테이블 갯수, 2)provisioned throughputs
+221	: 하나의 API Gateway에 하나의 Lambda function을 연결. 각각 따로 로그를 찍게 하는게 좋은가보다.
+252	: Credentials Provider Chain. 1)CLI Options 2)환경변수 3)configure file ex)aws config ... 4)컨테이너 credentials 5)instance profiles
+262	: DynamoDB Streams로 Lambda invoke는 동기트리거만 가능.
+334	: AMI는 동일 Region끼리 사용한다(Not country, Not AZ). 원한다면 다른 Region으로 복사는 가능하다. (AZ은 데이터센터이다. Region은 2개 이상의 AZ로 구성된 지리적 영역이다.)
+340	: EC2 메타데이터에서 역할 이름은 조회할 수 있지만, 상세 역할은 조회할 수 없음. --dry--run = 작업에 필요한 권한이 있는지 확인할 때 사용하는 명령어.
+345	: TopicArn, Subject, Message
+352	: 옛날에는 무작위 접두사를 S3 key에 붙이는게 권장됐지만, 지금은 timestamp가 권장됨.
+362	: 여러 장치에서 사용하는 사용자 관리 => Cognito Sync
+391	: Rolling Batch 방식은 첫번째 배치가 실패하는 경우를 제외하면, Rolling과 마찬가지로 falied 인스턴스에 의한 영향이 존재한다.
+393	: 커스템 메트릭을 CloudWatch로 보내려면 putMetricData API를 사용해야 함.
+396	: CodeCommit.Client 를 인스턴스화하고, putFile, DeleteFile, GetFile 등등 자유롭게 활용 가능함.
+399	: 기존 log groups을 KMS Key와 연동하려면, CLI에서 associate-kms-key 를 사용한다.
+409	: [CUSTOM][.][s3-website]['.'or'-'][region].amazonaws.com
+423	: BatchWriteItem은 update를 지원하지 않는다.
+433	: SAM CLI는 build+deploy OR build+(package)+deploy
+
+[다시볼것 2회차]
+11	: CloudWatdh 메트릭의 그래프표현을 원한다면, Custom Namespace를 만들어야 한다.
+13	: 각각의 ECS 서비스에 대한 역할을 설정하는 방법은 "ECS Tack Definition"에 역할 지정이다.
+71	: CloudFormation의 시작만 가능한 역할을 주고 싶다면? -> 템플릿을 Service Catalog 제품으로 만들고, Service Catalog API 만 사용할 수 있는 권한 주기.
+88	: CloudWatch Default Metric Resolution = 1분.  High Resolution = 1/5/10/30(s)
+116	: SNS의 알림 대상을 일괄등록하는 방법 -> CreatePlatformEndpoint
+125	: No "Access-Controll-Allow-Origin" ~~  이건 API Gateway의 CORS 에러이다. S3의 CORS 에러는 다른 메시지가 뜬다.
+126	: "한 자리 밀리초의 대기 시간 검색을 제공" -> DynamoDB의 특성.
+138	: CloudFormation의 Mapping 활용 -> {region-A:AMI-A, region-B:AMI-B}
+187	: EBS Backed Instance  vs  Instance-store Backed Instance
+ - EBS Backed Instance: 중지했다가 다시 시작 가능.
+ - Instance-store Backed Instance: 중지했다가 다시 시작 불가능.
+210	: CodePipeline의 일부로 단위테스트를 넣고싶다면, CodeBuild의 사양을 수정하는게 관례이다.
+228	: ECS Fargate에 환경변수를 전달하려면, Task Definition에 환경변수를 추가한다 (entryPoint 이런거 없음)
+230	: 페이스북/구글/등 로그인은? -> Web Identity federation (IdP) ★SAML 역시 IdP에 포함됨★
+232	: SAM 배포 순서? = (1)build -> (2)package to S3(optional) -> (3)deploy
+234	: Lambda Timeout은 디폴트:3초, 최대:15분(더이상 불가능)
+244	: RDS 데이터를 이용해서 로그인을 처리하고자 할때, 빠른 속도를 원한다면? 
+ - (1)비동기적 DB호출 사용
+ - (2)ElastiCache로 캐싱하기.
+258	: ECS를 Multi-Container로 실행하고 싶다면, Task Definition을 정의해야 한다. 최대 10개의 컨테이너를 포함할 수 있다.
+266	: API Gateway Cache 기능 Stage별로 ON/OFF가 가능하다. 하지만 캐시는 비싸므로 TEST와 DEV 환경에서는 꺼두는게 좋다. 최대 Cache 사이즈는 237GB이다.
+271	: 여러 계정의 Application들의 데이터를 중앙집중화하고 싶다? -> X-Ray Agent를 각각 설치한후, 중앙계정에 Put하자.
+275	: CodePipeline 단위작업의 상태변경을 트리거로 사용하고 싶다? -> CloudWatch Events (EventBridge)를 사용해야 함. (예를들면 Lambda를 호출하고 싶을때)
+288	: 비동기 메시지 전달 서비스 2가지? -> SQS, SNS
+301	: AWS CLI를 이용해서 Lambda를 SAM로 배포하고 싶다면, 가장 먼저 asm package 명령어로 S3에 소스를 올려야 한다.
+302	: Lambda와 통합된 API Gateway 에서 502-BadGateway 가 발생한다면, Lambda의 요청/응답 형식이 올바르지 않을 가능성이 높다.
+309	: Swagger를 이용하여 Restful API를 배포하는 두가지 방법
+ - 인라인 Swagger 정의를 사용하여 SAM 탬플릿을 배포.
+ - Swagger 파일을 정의하고, Swagger 파일을 참조하는 SAM 템플릿을 배포.
+312	: S3 -> SQS -> Lambda  이미지 처리할때 적합한 아키텍처이다.
+319	: S3 EventNotification이 Lambda를 invoke할때, Lambda의 Alias를 지정 가능함.
+325	: IAM 사용자가 AWS Service에 Role을 부여하려면, IAM 사용자에게 iam:PassRole 권한이 부여되어야 한다.
+326	: "특정 AWS 계정" 에게 API 사용을 제한하고 싶은 케이스이므로, 리소스 정책이 옳다. (Usage Plan은 일반사용자에게 적합)
+335	: SNS의 페이로드 명세 -> (1)MessageId, (2)unsubscribeURL, (3)Subject, (4)Message, (5)Other values
+336	: Long Polling을 위해 변경해야하는 파라미터 -> ReceiveMessageWaitTimeSeconds
+342	: Non-Peak Time에 DynamoDB 스캔작업을 잘 활용하는 방법 -> Rate-Limited Pararel Scan
+344	: Beanstalk에서 로드밸런서의 유형을 교체하는 방법
+ - (1) 기존 배포에서 애플리케이션 코드를 업데이트
+ - (2) 로드밸런서의 유형을 제외한 동일한 환경을 배포
+ - (3) swap-environment-cnames 작업 실행
+356	: 로컬에서 잘되지만, Lambda에서는 Unable to import module이 뜬다면? -> LB_LIBRARY_PATH 환경 생성 + 경로 명시 ㄱ
+370	: 한번에 여러개의 메시지를 SQS에서 수신하고 싶다면, ReceiveMessage API를 호출할때 MaxNumberOfMessages 를 증가시켜야 함.
+381	: 로컬 애플리케이션에서 AWS 서비스에 접근하기 위해서는 IAM Role(X) , IAM User Secrets Key(O)
+407	: Cognito로 관리하는 모든 장치에 Push 알람을 보내고 싶으면? -> Push Synchronization Feature 를 활용한다.
+438	: Stack을 Update하기 전에, change sets 를 먼저 조사하면 리소스에 어떤 영향이 있을지 미리 알 수 있다.
+439	: 갑작스러운 트래픽 스파이크 처리하는법 -> 프로비저닝된 ASG를 활용.
+453	: CloudFormation 템플릿의 리소스를 수정해서 배포하면, 이전 리소스는 삭제된다.
+461 : Session Policy는 임시 권한이라고 보면 된다.
+462 : 여러개의 EC2 인스턴스에 Unified CloudWatch Agent를 설치하면, 하나의 CloudWatch Logs에 로그를 통합하여 관리할 수 있다.
+463 : EC2 인스턴스에서 실행되는 애플리케이션이 교차계정 서비스에 접근하기 위해서는, AssumeRole API를 코드내에 포함시켜서 자격증명을 얻어야 한다.
+466 : SQS Polling Function의 Timeout이 SQS의 Visibility Timeout보다 크면, 중복처리가 발생할수도 있다. Why? -> Function Timeout = 20초, Visibility Timeout = 10초 라고 가정하면 Function이 작업을 마무리하는데 15초가 걸리는 케이스에서 중복처리가 발생함. 왜냐하면 10초가 지난시점에서 Queue에 메시지가 다시 나타나고, 다른 Function이 Polling할 수 있기 때문.
+
+[다시볼것 3회차]
+13	: 각각의 ECS 서비스에 대한 역할을 설정하는 방법은 "ECS Tack Definition"에 역할 지정이다.
+232	: SAM 배포 순서? = (1)build -> (2)package to S3(optional) -> (3)deploy
+262	: DynamoDB Streams로 Lambda invoke는 동기트리거만 가능.
+275	: CodePipeline 단위작업의 상태변경을 트리거로 사용하고 싶다? -> CloudWatch Events (EventBridge)를 사용해야 함. (예를들면 Lambda를 호출하고 싶을때)
+288	: 비동기 메시지 전달 서비스 2가지? -> SQS, SNS
+290	: EBS Volume을 저장할때 보호하는 방법? -> EBS위에 암호화된 파일 시스템을 사용한다.
+302	: Lambda와 통합된 API Gateway 에서 502-BadGateway 가 발생한다면, Lambda의 요청/응답 형식이 올바르지 않을 가능성이 높다.
+304	: "인메모리" 저장소를 골라야 하니깐, ElastiCache가 답인가보다. 뿐만 아니라, ElastiCache 역시 Auto Scaling을 지원한다.
+307	: EC2가 갖는 IAM Role -> Instance Profile Credentials (가장 적합한 권한부여 형태임)
+312	: S3 -> SQS -> Lambda  이미지 처리할때 적합한 아키텍처이다.
+342	: Non-Peak Time에 DynamoDB 스캔작업을 잘 활용하는 방법 -> Rate-Limited Pararell Scan
+344	: Beanstalk에서 로드밸런서의 유형을 교체하는 방법
+ - (1) 기존 배포에서 애플리케이션 코드를 업데이트
+ - (2) 로드밸런서의 유형을 제외한 동일한 환경을 배포
+ - (3) swap-environment-cnames 작업 실행
+370	: 한번에 여러개의 메시지를 SQS에서 수신하고 싶다면, ReceiveMessage API를 호출할때 MaxNumberOfMessages 를 증가시켜야 함.
+381	: 로컬 애플리케이션에서 AWS 서비스에 접근하기 위해서는 IAM Role(X) , IAM User Secrets Key(O)
+439	: 갑작스러운 트래픽 스파이크 처리하는법 -> 프로비저닝된 ASG를 활용.
+462 : 여러개의 EC2 인스턴스에 Unified CloudWatch Agent를 설치하면, 하나의 CloudWatch Logs에 로그를 통합하여 관리할 수 있다.
+463 : EC2 인스턴스에서 실행되는 애플리케이션이 교차계정 서비스에 접근하기 위해서는, AssumeRole API를 코드내에 포함시켜서 자격증명을 얻어야 한다.
+
+
+
+
+
+
+[유데미 1회차]
+1	: CodeBuild TimeOut를 설정할 수 있다. Default는 8시간이며, 원한다면 5분 ~ 8시간 내의 시간을 설정 가능하다.
+12	: CloudFormation의 구성요소로 가능한 항목
+ - Description
+ - Metadata
+ - Parameters
+ - Mappings
+ - Conditions
+ - Transform
+ - Resourses
+ - Outputs
+14	: IAM for CodeCommit에서 지원/비지원 하는 것
+ - (O) Git Credentials
+ - (O) AWS Access Keys
+ - (O) SSH Keys
+ - (X) IAM Username / Password
+19	: API Gateway의 "읽기" 성능을 개선하고 싶은 경우에는 API Caching이 유력한 정답 후보임.
+23	: Bind Mounts는 임시 공간을 제공한다. 지속적인 Multi-AZ 간의 공유를 위해서는 EFS를 사용하는 편이 좋다.
+27	: SSM Parameter Store에 저장된 Key-Value는 Auto Rotation 작업이 불가능하다. 따라서 Auto Rotation을 원하는 Credential은 ASM(AWS Secrets Manager)에서 관리하는 편이 좋다.
+28	: .ebextensions/ 에 정의되어 Elastic Beanstalk로 배포된 리소스는, 환경이 종료되면 삭제된다.
+32	: IAM Access Analyzer  vs  Access Advisor
+ - IAM Access Analyzer: 의도치 않은 액세스를 식별하는데 도움을 줌.
+ - Access Advisor: 사용되지 않는 역할을 식별하는데 도움을 줌.
+39	: SQS-ECS 통합시, "backlog per instance metric with target tracking scaling policy" 를 사용해보면 좋다.
+41	: Beanstalk의 Rolling/AddtionalBatchRolling 배포후 실패한 인스턴스를 종료하면, 이전 버전으로 대체한다.
+42	: SAM이 지원하는 리소스. Conditions를 Parameter 탭 내에 포함시킬 수 없다.
+ - AWS::Serverless::Api
+ - AWS::Serverless::Application
+ - AWS::Serverless::Function
+ - AWS::Serverless::HttpApi
+ - AWS::Serverless::LayerVersion
+ - AWS::Serverless::SimpleTable
+ - AWS::Serverless::StateMachine
+43	: IAM에서 지원하는 유일한 리소스 기반 정책은? -> Trust Policy (신뢰정책)
+44	: SSL/TLS 인증서를 배포하는 방법 두가지
+ - (1) IAM
+ - (2) ACM (AWS Certificates Manager)
+47	: SQS의 특성
+ - (1) Visibility Timeout의 기본값은 30초이다.
+ - (2) Queue 유형은 생성한 후에 바꿀 수 없다.
+ - (3) Standard Queue의 DLQ 역시 Standard 이어야 하며, FIFO Queue의 DLQ 역시 FIFO 여야 한다.
+ - (4) 대기열 태그는 대소문자를 구분한다.
+48	: EC2 User Data 의 특성
+ - (1) 루트 권한으로 실행된다.
+ - (2) 특별한 명시가 없다면, 첫 런칭때만 1회 실행된다. (명시한다면 재부팅할때도 실행가능)
+ - (3) 실행중인 인스턴스의 User Data를 수정할 수 없다.
+49	: 전용인스턴스(Dedicated Instance)와 전용호스트(Dedicated Host)
+ - 전용인스턴스: 단일 고객에게 전용된 하드웨어에서 VPC에서 실행됨. 단일 테넌트 요구사항을 충족 가능함.
+ - 전용호스트: 완전히 고객 맞춤인 인스턴스라고 보면 됨. 가장 비쌈.
+50	: CloudFront Key Pair 는 루트 사용자만 만들 수 있다.
+56	: Parameter 섹션안에 Condition을 사용할 수 없다.
+59	: Route53의 리디렉트 종류 및 기능
+ - (1) Alias -> S3, CloudFront 등의 서비스로 전달함. 혹은 Record to Record
+ - (2) A 레코드 -> DNS to IP
+ - (3) PTR 레코드 -> IP to DNS
+ - (4) CNAME -> DNS to DNS
+61	: ASG의 특성
+ - (1) ASG는 Cross-AZ 간 균일하게 배포를 시도한다.
+ - (2) ASG는 Cross-Region 배포가 불가능하다.
+ - (3) VPC에서 시작한 ASG의 경우, EC2는 서브넷에서 시작된다.
+
+
+
+
+[유데미 2회차]
+2	: Identity Pool 만으로는 사용자 관리가 불가능하다. 또한 User Pool과 함께 User Pool authorizer를 사용하면 AWS 서비스에 대한 인증을 처리할 수 있다.
+4	: 롤링,롤링배치 방식은 fail시 수동 재배포를 해야 한다.
+9	: API Gateway 에서의 인증 - 유저풀(O), 람다Authorizer(O), Standard IAM role and policy(O), STS(X)
+13	: SQS는 저장 메시지 갯수 제한이 없다. 단 전달중인 메시지는 약 12만개의 제한이 있다(전달중=poll했지만 delete는 하지 않음)
+14	: EBS 볼륨은 동일 AZ에서만 사용 가능하다(AZ Locking)
+16	: Zonal Reserved Instances (영역 예약 인스턴스)만 용량 예약이 가능하다. Regional Reserved Instances (지역 예약 인스턴스)는 용량 예약이 불가능하다.
+17	: Firehose의 지원대상 = S3(O), Elastic Search(O), Amazon Redshift(O), Elastic Cache(X)
+23	: DynamoDB -> S3  = EMR(O), Glue(O), Data Pipeline(O), DynamoDB 온디맨드 백업(X)  (온디맨드 백업방식은 S3로의 저장을 지원하지 않는다.)
+35  : 서브넷은 하나의 라우팅 테이블에만 연결할 수 있다. 서브넷은 특정 라우팅 테이블과 명시적으로 연결되지 않은 경우, 기본 라우팅 테이블과 암시적으로 연결된다.
+41  : io1의 볼륨대비 IOPS 비율은 최대 1:50이다. 즉 볼륨 크기가 200GiB이라면, 10,000IOPS를 넘을 수 없다.   #io1은 곱하기50임
+45	: 하나의 private key로 여러개의 public key를 복사하여 사용할 수 있다. 복사된 public key는 여러 region에서 사용할 수 있다.
+50	: SQS의 Delay time은 최소 0초(Default) ~ 최대 15분 이다.
+51	: CloudFormation의 파라미터는 모두 독립적이며 서로 종속될 수 없다. 가능한거=Stirng,Number,List,CommaDelimitedList, EC2::A::B
+54	: CodeDeploy 절차 = 1)ApplicationStop -> 2)DownloadBundle -> 3)BeforeInstall -> 4)Install -> 5)AfterInstall -> 6)ApplicationStart -> 7)ValidateService 8)~~~Traffic
+58	: 100IOP(33.33GiB) < gp2 IOPS < 16,000IOPS(5.3TiB)   #gp2는 곱하기3임
+60	: private key는 URL을 서명할때, public key는 CloudFront에서 서명확인.  루트유저로 2개의 key pair를 가질 수 있고, 키 그룹을 활용하면 4개의 그룹, 그룹당 5개의 공개키를 가질 수 있음.
+66	: Cognito User Pool Authorizer 라는 권한부여자도 있으니 유의하자. (Identity Pools만 있는게 아님)
+(★)61	: State Machine의 Task 정의에 Resource는 필수이다. Resource가 없다면 Task가 아니라 Pass타입이다.
+(★)64	: EC2 인스턴스가 인터넷 게이트웨이를 사용하여 퍼블릭 인터넷에 연결하려면?
+ - 인스턴스 서브넷의 Route Table에 인터넷 게이트웨이의 경로가 있어야 한다.
+ - 서브넷과 연결된 네트워크 ACL에는 인바운드/아웃바운드 트래픽을 허용하는 규칙이 있어야 한다.
+(★)65	: EC2 Instance metrics 표준 모니터링 주기 = 5분, Detailed 모니터링 주기 = 1분
+ - EC2 Memory Usage는 기본 metric이 아니다. Custom으로 정의해줘야 한다.
+(★)67	: Lambda 함수를 컨테이너화하여 ECS로 배포할때 유의사항
+ - 컨테이너 이미지를 Lambda에 배포하려면 컨테이너 이미지가 Lambda Runtime API를 구현해야 한다.
+ - Lambda는 다중 아키텍처 컨테이너 이미지를 사용하는 Lambda 함수를 지원하지 않음.
+ - Lambda는 현재 Linux 기반 컨테이너 이미지만 지원한다.
+ - Lambda 컨테이너를 로컬에서 테스트하려면, Lambda Runtime Interface Emulator를 사용해야 한다.
+ - Lambda 함수는 최대 10GB의 크기의 컨테이너 이미지로 배포할 수 있다.
+(★)68	: DynamoDB의 ConsistentRead=true/false 속성은 읽기 작업에만 사용 가능하다.
+
+ 
+
+
+[유데미 3회차]
+1	: ReceiveMessage 작업 대기시간이 0보다 크면 Long Polling이 적용된다. 최대 대기 시간은 20초이다.
+4	: IAM 으로 인증이 가능한 DB = MySQL, MariaDB, Postgre  인증에 토큰을 사용하며, 수명은 15분이다.
+5	: 클라이언트 주소를 얻으려면 X-Forwarded-For(O), X-Forwarded-From(O)
+7	: Read Replica = Read 워크로드가 많을때 적합,  Multi-AZ = 고가용성에 적합.
+9	: Lambda 환경변수의 크기 제한은 4KB이다. 갯수 제한은 없다.
+10	: Kinesis Data Streams는 Kinesis Data Firehose 보다 Downstream 구축에 더 비용 효율적이다.
+14	: CloudWatch Event는 Lambda 코드의 오류를 식별하고 알릴 수 없다. 따라서 오류 로그는 직접 찍어야 한다.
+19	: Kinesis Data Streams는 기본적으로 24시간동안 데이터를 보존한다. 요청한다면, 최대 365일까지 보관 가능하다.
+22	: Default S3 Ownership을 사용하면, 업로드 하는 사람이 객체의 주인이 됨.
+23	: Lambda-DLQ 통합은 일반적으로 Lambda를 비동기 호출할때 사용한다. 동기호출에 사용하는건 의미가 없다.
+27	: ECS 클러스터에서 STOPPED 상태의 인스턴스를 종료시키면 자동제거되지 않는다. AWS CLI를 통해 인스턴스를 직접 등록취소 해줘야 한다. (RUNNING 상태의 인스턴스를 종료시키는 경우에는 자동제거된다.)
+28	: CodeDeploy Agent 구성 파일의 max_revisions 옵션을 사용하면, 보관하는 revision 갯수를 제한할 수 있다.
+34	: KMS를 사용해서 EBS 볼륨의 암호화가 가능하다. At Rest, In-fligh 모두 가능하며, 이를 통해 EC2Instance-EBSVolume 간의 암호화를 구축할 수 있다.
+43	: SQS는 Auto Scale Out 하므로 configuration이 필요하지 않다.
+47	: SQS Extended Client를 사용하면 2GB 까지의 메시지 처리를 할 수 있다.
+52	: CodeDeploy의 EC2 배포 유형에  Rolling(+batch),Immutable 은 없다.  있는거=In-Place, Blue/Green   ECS에 배포할때는 Blue/Green만 됨 (Consists of Linear/Canary/AllAtOnce)
+53	: ALB는 cross-zone이 Default로 활성화 되어 있음. 근데 왜 비균등? -> 후보1)Sticky Session, 후보2)고용량 인스턴스에 트래픽이 몰림.
+58	: KMS Large Data 암호화과정
+ - 암호화
+   1) GenerateDataKey 호출
+   2) PlainTextKey와 암호화된 DataKey 받음.
+   3) PlainTextKey로 내 파일 암호화.
+ - 복호화
+   1) Decrypt 호출
+   2) 암호화된 DataKey를 복호화해서 PlainTextKey를 얻음
+   3) PlainTextKey로 내 파일 복호화.
+65	: Redis는 Memcached보다 신뢰성이 높다. 그 이유는 Memcached는 단순하게 설계된 반면, Redis는 스냅샷,복제,트랜잭션 기능을 지원하기 때문이다.
+21	: S3 복제를 활성화하면? -> 1)버전ID 및 메타데이터 유지, 2)새 객체만 복제, 3)교차Region복제로 태그 복제 가능, 4)수명주기는 복제X, 5)동일Region, 교차Region 모두 버킷/접두사/태그 수준에서 구성가능
+(★)67	: Cognito의 ID기반 정책을 활용하면, 인증된 사용자가 자신의 S3 버킷에만 접근하도록 제어할 수 있다.
+(★)45	: RDS 고가용성 기능 = 1)읽기 전용 복제본이나 수동 스냅샷은 Multi-Region 가능, 2)자동백업은 Single-Region만 가능.
+(★)66	: Beanstalk의 구성파일에 변수를 동적으로 부여하고 싶을때, 환경변수를 사용하는것도 좋은 방법이지만 이는 암호화되지 않는다. 따라서 "안전"한 방법을 원한다면 SSM Parameter Store가 적합하다.
+(★)20	: EC2 인스턴스에 모니터링 활성화히기
+ - 실행중인 EC2 Instance에 모니터링을 활성화 하려면 aws ec2 monitor-instances --instance-ids [ID} 
+ - 모니터링을 활성화하여 시작하려면 aws ec2 run-instances --image-id [AMI-ID] --monitoring Enabled=true
+(★)50	: Step Functions은 두가지 유형 존재 
+ - 1)Standard: 비용이 많이 들거나 장기 프로세스 (최대 실행기간은 1년, 모든 서비스통합,활동,디자인패턴 지원함)
+ - 2)Express: 이벤트비율이 높고, 기간이 짧은 부하 (초당 100,000개 처리 가능, 최대실행기간 5분, 활동, 작업실행(.sync), 콜백 패턴을 지원하지 않음)
+(★)51	: ECS의 Configuration 파일은 /etc/ecs/ecs.config 에 정의되어 있다. (클러스터 이름 등)
+(★)46	: CodeBuild는 처리를 위해 Auto Scale Out 한다. (Auto Scailing을 따로 Enable할 필요도 없다)
+(★)47	: S3의 Access 권한을 제어하는 네가지 방법
+ - (1): IAM 정책
+ - (2): 버킷 정책
+ - (3): ACL
+ - (4): 쿼리 문자열 인증
+(★)48	: 교차계정이 아닌 일반 IAM 역할 + S3 리소스 정책 만으로는 교차계정 Access를 제어할 수 없다.
+(★)49	: API Gateway의 Stage Variable을 이용하여 TEST황경을 PROD환경으로 승격시킬 수 있다.
+(★)50	: SQS도 CodeBuild와 역시 마찬가지로 Auto Scailing이 디폴트임. 따로 Enable 시킬 필요 없음.
+(★)51	: Lambda 의 처리중 리트라이에서 성공했다면(1회차실패 2회차성공) DLQ로 보내지지 않는다.
+
+
+
+
+
+
+
+[유데미 4회차]
+1	: Redis Elastic Cache는 정렬 기능을 제공한다 (Sorted Set)
+6	: CI/CD 의 respotitory의 후보는 S3/CodeCommit 두가지가 될 수 있다.
+7	: CodeBuild의 종속성을 S3에 캐싱하면 좋다.
+13	: CloudWatch + S3 통합으로 S3에 로그를 저장할 수 있다.
+17	: Immutable은 가장 느린 배포 방식이다. AllAtOnce 방식은 가장 빠른 배포방식이며, 약간의 Downtime이 존재한다.
+24	: X-Ray는 EC2의 RAM 통계를 추출할 수 없다.
+32	: 런타임에 Lambda Function이 사용할 수 있는 최대 메모리는 10GB이다.
+43	: SSE-C 가 포함되어 있는 S3 API 요청은 반드시 HTTPS 프로토콜을 사용해야 한다. (SSE-KMS, SSE-S3, CSE 세가지는 HTTPS가 반드시 필요한건 아니다)
+53	: Lambda Invoke Trigger로, Custom Source 같은건 없다. CloudWatch Event 규칙을 만들어서 Invoke 해줘야 한다.
+54	: ProjectArtifacts는 Build의 결과물이다. 빌드가 끝나고 결과물을 S3에 올리고 싶다면, CodeBuild가 S3에 접근할 수 있는 권한을 부여해야 한다.
+63	: ELB-NACL 통합을 하려면, NACL의 1024-65535 포트를 열어줘야 한다. (NAT 게이트웨이도 마찬가지), 리눅스 커널은 32768-61000, 윈도우2003은 1025-5000, 윈도우2008이상은 49152-65535
+(★)27	: ALB의 Target 설정 가능 대상  1)인스턴스ID, 2)Lambda, 3)private IP (퍼블릭IP 안됨.), ALB의 타겟대상이 IP인 경우 직접 전달되지 않고 하나 이상의 네트워크 게이트웨이를 통해 전달된다.
+(★)64	: S3 객체의 로그를 얻으려면, 해당 계정도 S3 객체의 Owner여야 한다. 또한 CloudTrail의 로그는 객체수준의 소유자에게는 전달되므로, S3의 객체의 Owner이기만 하면 볼 수 있다.
+(★)65	: Redis 클러스터 관련 팩트
+ - Redis 클러스터의 모든 노드는 동일한 지역에 존재해야 한다.
+ - 클러스터 모드가 활성화된 Redis를 사용하는 동안에는 복제노드를 수동으로 기본노드로 승격할 수 없다.
+(★)31	: CloudFront로 정적/동적 컨텐츠 모두 제공 가능하다. 
+ - Multi-Origin으로 그룹설정을 하면 정적/동적 컨텐츠를 동시에 제공할 수도 있다.
+ - Origin Groups은 Fail over를 처리하는데 사용된다.
+(★)8	: Kinesis Agent는 데이터를 모니터링하고 새 데이터를 Streams로 전송하는데에 최적화 되어있다. KPL은 애플리케이션코드와 KDS의 중재자 역할이므로, Kinesis Agent에 비하면 최적이 아니다.
+(★)26	: Cross-Account 권한 부여 절차 (사용자)
+ - 1) A로 정책생성
+ - 2) A로 정책에 B를 역할로 맡을 수 있는 "주체"로 식별하는 신뢰정책을 추가.
+ - 3) B에서 정책 Assume
+(★)27	: Cross-Account 권한 부여 절차 (서비스)
+ - 1) A로 정책생성
+ - 2) A로 정책에 B를 역할로 맡을 수 있는 "AWS 서비스 주체"로 식별하는 신뢰정책을 추가.
+ - 3) B에서 정책 Assume
+
+
+
+
+
+
+
+[유데미 5회차]
+6	: Macie란? 민감한 정보를 검색하고 가시성을 제공하며, 검토 및 수정의 기회를 제공함. SensitiveData:S3Object/Financial = 금융정보타입, ~/CustomIdentifier = 고객식별자타입, ~/Personal
+11	: ★주의★ package.jon, requirement.txt 요런 의존성주입은 "Beanstalk"의 패키지 방법이다. Lambda에 의존성주입을 위해서는 반드시 동일한 폴더에 의존성을 넣고 일괄압축해야 한다.
+14	: Cache Lazy Loading이란? cache에 데이터가 없거나 TTL로 인해 만료되었을 경우에만 Cache에 값을 쓴다.
+19	: X-Ray는 트레이스당 최대 50개의 Annotations을 인덱싱할 수 있다.
+21	: 로드밸런서에 SSL 인증서를 할당하면, 로드밸런서는 HTTPS 엔드포인트를 노출할 수 있다.
+22	: CLI로 ECS 띄우는법 -> aws ecs create-service --service-name ecs-simple-service --task-definition ecs-demo --desired-count 10
+25	: S3관련 팩트들. ->  1)S3 버전관리는 모든 개체에 적용된다, 2)파일을 덮어쓰면 버전이 증가한다, 3)버전 관리를 활성화하기 전의 모든 파일들은 null 버전을 갖는다.
+32	: STS는 임시인증토큰 서비스이다. 만료기간은 Default로 1시간이며, 15분~1시간 내로 설정 가능하다.
+33	: X-Ray 데몬 컨테이너를 띄우는 방법: 1)Fargate에서는 sidecar 컨테이너를 띄워야함. 왜냐하면 기존 컨테이너는 컨트롤이 불가능함. 2)ECS EC2 Launch 타입에서는 기본 EC2에 띄우면 됨.
+38	: KMS의 데이터키를 캐싱할수도 있다.(SDK를 사용하면 가능, 하지만 주의해서 써야 함)
+42	: S3와 DynamoDB가 지원하는 인터페이스 ★웬만하면 게이트웨이 엔드포인트 쓰자★
+ - S3		: 게이트웨이엔드포인트(O), 인퍼테이스엔드포인트(O), API엔드포인트(이런거없음)
+ - DynamoDB	: 게이트웨이엔드포인트(O), 인퍼테이스엔드포인트(X), API엔드포인트(이런거없음)
+48	: Beanstalk의 .ebextention은 버전관리에 도움을 주지 못한다. 버전 관리는 "수명주기"로 할 수 있다.
+53	: ★또틀림★ API Gateway 에서의 인증 - 유저풀(O), 람다Authorizer(O), Standard IAM role and policy(O), STS(X)
+55	: S3의 multi-part 업로드는 100MB 이상 파일부터 권장하며, 5GB이상 파일엔 필수다. S3 Transfer Acceleration을 활용하면 빠르게 업로드 가능하다.
+56	: CodePipeline은 Lambda를 직접 invoke할 수 없다.
+(★)50	: CloudFormation 템플릿으로 람다를 띄우려면, S3/직접작성 두가지 방법밖에 없다. 단, 직접작성하는 경우 외부라이브러리는 사용할 수 없다.
+(★)57	: Beanstalk 환경에서, 오래걸리는 작업을 하는 인스턴스를 Dedicated Worker Environment로 설정하면 좋다. 뿐만 아니라, cron.yaml 파일을 수정하여 배치를 구성 가능.
+(★)58	: API Gateway의 배포전략으로 Canary Deployment 가 존재한다.
+(★)59	: CodeStar는 개발~배포 기능뿐 아니라, 통합UI까지 제공함.
+(★)9	: S3의 페이징은 DynamoDB와 다르다. S3 CLI 명령어에 3가지 옵션을 줄 수 있다. 1)--max-items(필수), 2)--starting-token(필수), 3)--page-size(선택)
+(★)10 : 중앙 계정에서 하위 계정들의 EC2 X-Ray 트레이스를 모으는 방법
+ - 중앙 계정에 접근할 수 있는 IAM 역할을 만들고, 하위 계정에게 허용한다.
+ - 하위 계정에서 EC2에 IAM 역할을 부여한다.
+(★)11 : 권한불충분에 의해서도 500에러(Internal Server Error)가 발생할 수 있다.
+
+
+
+
+[유데미 6회차]
+1	: Multi-AZ RDS
+ - DB인스턴스에 업데이트가 발생하면, Standby 인스턴스에 "동기적"으로 복제한다.
+ - OS Update 순서: (1)Standby에서 유지보수 -> (2)유지보수가 끝난 Standby를 Primary로 승격 -> (3)Old Primary가 다시 Standby가 되며, 유지보수 대상이 됨.
+7	: ELB + ASG + EC2 Integration에서 unhealthy Instance의 교체를 자동화하려면, ASG의 health check type을 EC2에서 ELB로 변경해야 한다.
+8	: 인스턴스 용량 전략
+ - 예약 인스턴스: 용량 예약을 제공하여, 온디맨드에 비해 가격이 저렴하다. 하지만 온디맨드와 성능은 동일하며, Downtime의 걱정이 없다.
+ - 스팟 인스턴스: 사용되고 있지 않은 인스턴스를 요청하여 사용하는 방식이며, 가격이 매우 저렴하다. 하지만 언제든지 통지없이 Down될 수 있다.
+15	: CodeDeploy Deployment Groups = 서로 다른 배포그룹에 배포할 수 있다. 배포그룹의 대상은 EC2, ASG의 EC2 둘 모두가 될 수 있다.
+22	: 캐시미스가 발생했을때, CloudFront-Viewer-Country 헤더값을 기반으로 리디렉션하려면? 
+ - (O) Lambda@Edge를 Origin Request Event와 연관시킨다.
+ - (X) Lambda@Edge를 Viewer Request Event와 연관시킨다. -> 캐시미스가 있을때만이 아니라, 모든 뷰어 요청에 대해 실행하게 됨.
+ - (X) CloudFront Function을 Origin Request Event와 연관시킨다. -> Origin Request Event에 대한 CloudFront Function은 지원하지 않는 기능임.
+ - (X) CloudFront Function을 Viewer Request Event와 연관시킨다. -> 캐시미스가 있을때만이 아니라, 모든 뷰어 요청에 대해 실행하게 됨.
+26	: API Gateway - CloudWatch
+ - (1) Method 수준의 Metrics에 접근할때만만 요금이 청구된다. (API, Staging 단계의 Metrics는 요금청구 X)
+ - (2) 데이터를 로깅할때 STS가 사용됨.
+27	: EBS 볼륨의 암호화
+ - (1) 새로 만드는 EBS의 볼륨은 암호화 가능.
+ - (2) 스냅샷의 암호화 가능
+ - (3) 암호화 되지 않은 기존 EBS 볼륨은 암호화 불가능 (단, 스냅샷을 만든후 스냅샷을 암호화하여 이를 달성가능함.)
+33	: ASG는 Regional 구성요소이다. 그러므로 across AZs 는 가능하지만, across Regions 는 불가능하다.
+38	: SQS 메시지의 Default 보관 기간은 ★4일★이며, 원한다면 ★{60초 ~ 14일}★ 로 설정 가능하다.
+41	: S3의 버전관리가 비활성화 되어 있다면, Event Notification이 누락될 수도 있다.
+42	: ECR에서 Pull하는 방법 = (1)aws ecr get-login -> (2)docker pull 
+43	: 5xx 코드
+ - 500: 내부 서버 오류
+ - 501: Not Supported Error (제공하지 않는 메소드 GET,POST등)
+ - 502: Bad Gateway (통신장애 - 서버 과부하, 네트워크장애 등이 원인. Request/Response 형식이 안맞을 가능성 높음)
+ - 503: 서비스 사용불가 (ALB 대상그룹에 등록된 대상이 없으면 발생)
+ - 504: 게이트웨이 시간 초과 
+ - 403: Forbidden 권한오류
+46	: ECS -> CloudWatch Logs Central 방법 = awslogs driver 활용 및 logConfiguration 정의.
+47	: CloudFront - Cognito User Pools 통합을 직접 통합할 수 없다. 이를 실현하기 위해서는 Lambda@Edge가 필요하다. ALB와 통합하는게 바람직하다.
+62	: Cross Account간 ECS 작업 구성 옮기는 방법
+ - A의 로컬머신으로 작업 구성 다운로드.
+ - 계정별 매개변수 구성후, B의 S3에 작업 구성 업로드.
+ - B의 ECS 콘솔에서 '저장된 구성' 으로 시작.
+63	: True로 설정된 EBS의 DeleteOnTermination을 False로 변경하려면, CLI를 이용해야 한다.
+(★)19	: Kineis Data Streams의 비용  >>>  Kinesis Firehose의 비용. 하지만 스트리밍 데이터를 서비스에 로드하는 작업만 한다고 치면, Firehose가 비용 효율적이다.
+(★)20 : Kinesis Data Streams를 암호화할때, HTTPS를 사용하면 코드의 변경없이 암호화 대응이 가능하다.
+(★)21 : CloudWatch에 로그를 보내는 역할을 부여하려면, 아래 인라인 정책을 모두 추가해야 함.
+ - "logs:CreateLogGroup",
+ - "logs:CreateLogStream",
+ - "logs:PutLogEvents",
+ - "logs:DescribeLogStreams"
+(★)22 : ASG는 ALB, NLB 둘 모두와 사용 가능하다.
+
+
